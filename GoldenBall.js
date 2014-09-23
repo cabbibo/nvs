@@ -1,6 +1,8 @@
-function GoldenBall( mesh ){
+function GoldenBall( title , mesh , params ){
 
+  
 
+  var title = title || 'HELLO';
   var mesh = mesh || new THREE.Mesh( new THREE.BoxGeometry( 1000 , 1000 , 1000 , 80 , 80 , 80 ) );
   var geometry = new THREE.Geometry();
 
@@ -10,7 +12,7 @@ function GoldenBall( mesh ){
   
   
   
-  var params = {
+  var params = _.defaults( params || {} , {
 
     repelers: REPELERS,
 
@@ -27,7 +29,7 @@ function GoldenBall( mesh ){
     soul:{
        
       dampening:          { type:"f" , value: .9 , constraints:[.8 , .999] },
-      noiseSize:          { type:"f" , value: .001 , constraints:[.0001 , .01] },
+      noiseSize:          { type:"f" , value: .001 , constraints:[.0001 , 1.] },
       noiseVariation:     { type:"f" , value: .4   , constraints:[.01 , 1.] },
       noiseChangeSpeed:   { type:"f" , value: 1   , constraints:[.0 , 5.] },
       audioPower:         { type:"f" , value: 1   , constraints:[.0 , 1.] },
@@ -64,12 +66,43 @@ function GoldenBall( mesh ){
 
     },
 
-  }
+  });
 
   var gem = new GEM( params );
-  
+ 
+  var gHolder = document.createElement('div');
+
+  var tHolder = document.createElement('h1');
+
+  tHolder.innerHTML =''+ title;
+
+  gHolder.appendChild( tHolder );
+  var guis = document.getElementById( 'GUI' );
+
+  guis.appendChild( gHolder );
+
+  $(tHolder).click(function(){
+    this.toggle();
+    if( this.active ){
+      this.tHolder.className = "active";
+    }else{
+      this.tHolder.className = "";
+    }
+  }.bind( gem ));
+
+
+  $(tHolder).hover(function(){
+    this.gui.gui.open();
+  }.bind( gem ));
+
+  $(gHolder).hover(function(){},function(){
+    this.gui.gui.close();
+  }.bind(gem));
+
+  gem.tHolder = tHolder;
+
   gem.gui = new GUI( params , {
-   domElement: document.getElementById( 'GUI' ) 
+   domElement: gHolder 
   });
 
 

@@ -43,7 +43,7 @@
 
     #stats{
       position  : absolute;
-      bottom    : -5px;
+      bottom    : -35px;
 
       left      : 0px;
       z-index   : 999;
@@ -84,28 +84,48 @@
 
     }
 
-     #GUI{
+    h1{
+      background: #000;
+      color: #fff;
+      margin: 0px;
+      padding: 5px;
+      font-size:25px;
+      border-bottom:1px solid white;
+    }
+
+    h1:hover{
+
+      background:#777;
+
+    }
+
+    .active{
+      background:#7ca;
+    }
+
+    .close-button{
+  
+      display:none;
+
+    }
+
+    #GUI{
 
       position:fixed;
       right:0px;
       top:0px;
       z-index:999;
 
-      }
+    }
     
     </style>
 </head>
 <body>
 
-  <div id="GUI"></div>
-  
-  <div id="description">
-
-    <a href="http://atomnation.bandcamp.com/album/autumn-bells" target="_blank">Gidge - Huldra</a>
-
+  <div id="GUI">
+    <h1>GUI</h1>
   </div>
-
-
+  
 <script src = "lib/underscore.js"           ></script>
 <script src = "lib/three.js"                ></script>
 <script src = "lib/jquery.min.js"           ></script>
@@ -134,7 +154,9 @@
 <script src = "Arrangements.js"             ></script>
 
 
+<script src = "Text.js"               ></script>
 <script src = "GoldenBall.js"               ></script>
+
 <script>
 
   var container , camera, scene, renderer , stats;
@@ -364,12 +386,16 @@
     Arrangements.randomSphere();
 
 
-    //console.log( loadedGeometries['hand'] );
-   // var g = new THREE.IcosahedronGeometry( 400 , 7 );
-    //var g = new THREE.BoxGeometry( 400 , 400 , 400 , 80 , 80 , 80 );
-    gem = new GoldenBall( loadedMeshes['bieb'] ); 
+    var t = new Text('CABBIBO', 3 );
+    t.scale.multiplyScalar( 1 );
+    t.updateMatrix();
+    
+    gem = new GoldenBall('text' , t );
 
-    gem.addToScene();
+
+    var g = new THREE.Mesh( new THREE.IcosahedronGeometry( 400 , 5 ) );
+    gem1 = new GoldenBall( 'Background' , g ); 
+
 
   }
 
@@ -382,6 +408,7 @@
     G_UNIFORMS.time.value += G_UNIFORMS.dT.value;
 
     gem.update();
+    gem1.update();
 
     stats.update();
 

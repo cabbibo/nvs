@@ -24,6 +24,8 @@ function GEM( params ){
 
   });
 
+  this.active = false;
+
   if( !this.params.soul || !this.params.body  ){
     this.error('no uniform passed' );
   }
@@ -106,16 +108,27 @@ function GEM( params ){
 
 GEM.prototype.addToScene = function(){
 
+  this.active = true;
   scene.add( this.body );
 
 }
 
 GEM.prototype.removeFromScene = function(){
 
+  this.active = false;
   scene.remove( this.body );
 
 }
 
+GEM.prototype.toggle = function(){
+
+  if( !this.active ){
+    this.addToScene();
+  }else{
+    this.removeFromScene();
+  }
+
+}
 
 GEM.prototype.createVertexUVs = function(){
 
@@ -282,7 +295,9 @@ GEM.prototype.createGeometry = function(){
 
 GEM.prototype.update = function(){
 
-  this.soul.update();
+  if( this.active ){
+    this.soul.update();
+  }
 
 }
 
