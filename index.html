@@ -154,8 +154,8 @@
 <script src = "Arrangements.js"             ></script>
 
 
-<script src = "Text.js"               ></script>
-<script src = "GoldenBall.js"               ></script>
+<script src = "Text.js"                     ></script>
+<script src = "CurlMesh.js"                 ></script>
 
 <script>
 
@@ -386,15 +386,25 @@
     Arrangements.randomSphere();
 
 
-    var t = new Text('CABBIBO', 3 );
+    var t = new Text('VEERTJE', 3 );
     t.scale.multiplyScalar( 1 );
     t.updateMatrix();
     
-    gem = new GoldenBall('text' , t );
+    gem = new CurlMesh('text' , t , {
+
+      soul:{
+
+        noiseSize: { type:"f" , value: .1 , constraints:[.01 , 1.] },
+        returnPower:        { type:"f" , value: .8  , constraints:[ .0 ,1. ] },
+        noisePower:         { type:"f" , value: 1   , constraints:[0 , 10.] },
+
+      }
+      
+    });
 
 
-    var g = new THREE.Mesh( new THREE.IcosahedronGeometry( 400 , 5 ) );
-    gem1 = new GoldenBall( 'Background' , g ); 
+    var g = new THREE.Mesh( new THREE.IcosahedronGeometry( 400 , 7 ) );
+    gem1 = new CurlMesh( 'Background' , g ); 
 
 
   }
