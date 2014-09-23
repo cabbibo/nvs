@@ -119,7 +119,13 @@
 <script src = "lib/PhysicsRenderer.js"      ></script>
 <script src = "lib/ParticleUtils.js"        ></script>
 <script src = "lib/dat.gui.min.js"          ></script>
+<script src = "lib/OBJLoader.js"            ></script>
 <script src = "lib/Loader.js"               ></script>
+<script src = "lib/SubdivisionModifier.js"  ></script>
+
+<script src="fonts/helvetiker_bold.typeface.js"></script>
+<script src="fonts/helvetiker_regular.typeface.js"></script>
+
 
 <script src = "GEM.js"                      ></script>
 <script src = "GUI.js"                      ></script>
@@ -147,7 +153,7 @@
 
   // TODO: make into loader
   var loaded = 0;
-  var neededToLoad = 2;
+  var neededToLoad = 3;
 
 
   var loader = new Loader();
@@ -180,6 +186,96 @@
   }
 
 
+  var modifier = new THREE.SubdivisionModifier( 0 );
+  var loadedMeshes = {}
+  
+  var objLoader  = new THREE.OBJLoader();
+  
+ /* objLoader.load( 'models/hand.obj' , function( obj ){
+
+    loadedMeshes['hand'] = obj.children[0];
+
+    loadedMeshes['hand'].scale.multiplyScalar( 200 );
+    loadedMeshes['hand'].position.z = -400;
+    loadedMeshes['hand'].updateMatrix();
+
+    var smooth = loadedMeshes['hand'].geometry;
+    smooth.mergeVertices();
+    smooth.computeFaceNormals();
+    smooth.computeVertexNormals();
+
+    modifier.modify( smooth );
+
+    onLoad();
+
+  });*/
+
+ /* objLoader.load( 'models/skull1.obj' , function( obj ){
+
+    loadedMeshes['skull1'] = obj.children[0];
+
+    loadedMeshes['skull1'].scale.multiplyScalar( 2 );
+    loadedMeshes['skull1'].position.z = -200;
+    loadedMeshes['skull1'].position.y = -400;
+    loadedMeshes['skull1'].updateMatrix();
+
+    var smooth = loadedMeshes['skull1'].geometry;
+    
+    smooth.mergeVertices();
+    smooth.computeFaceNormals();
+    smooth.computeVertexNormals();
+
+    modifier.modify( smooth );
+
+    onLoad();
+
+  });*/
+
+
+  /* objLoader.load( 'models/logo.obj' , function( obj ){
+
+    loadedMeshes['logo'] = obj.children[0];
+
+    loadedMeshes['logo'].scale.multiplyScalar( 50 );
+    //loadedMeshes['logo'].position.z = -200;
+    //loadedMeshes['logo'].position.y = -400;
+    loadedMeshes['logo'].updateMatrix();
+
+    var smooth = loadedMeshes['logo'].geometry;
+    
+    smooth.mergeVertices();
+    smooth.computeFaceNormals();
+    smooth.computeVertexNormals();
+
+    modifier.modify( smooth );
+
+    onLoad();
+
+  });*/
+
+   objLoader.load( 'models/bieb.obj' , function( obj ){
+
+    loadedMeshes['bieb'] = obj.children[0];
+
+    loadedMeshes['bieb'].scale.multiplyScalar( 50 );
+    //loadedMeshes['bieb'].position.z = -200;
+    //loadedMeshes['bieb'].position.y = -400;
+    loadedMeshes['bieb'].updateMatrix();
+
+    var smooth = loadedMeshes['bieb'].geometry;
+    
+    smooth.mergeVertices();
+    smooth.computeFaceNormals();
+    smooth.computeVertexNormals();
+
+    modifier.modify( smooth );
+
+    onLoad();
+
+  });
+
+
+
   var G_UNIFORMS = {
 
     dT      : { type:"f" , value:0                            },
@@ -187,6 +283,7 @@
     t_audio : { type:"t" , value: audioController.texture     },
 
   }
+
 
 
 
@@ -267,9 +364,10 @@
     Arrangements.randomSphere();
 
 
-    var g = new THREE.IcosahedronGeometry( 400 , 7 );
+    //console.log( loadedGeometries['hand'] );
+   // var g = new THREE.IcosahedronGeometry( 400 , 7 );
     //var g = new THREE.BoxGeometry( 400 , 400 , 400 , 80 , 80 , 80 );
-    gem = new GoldenBall( g ); 
+    gem = new GoldenBall( loadedMeshes['bieb'] ); 
 
     gem.addToScene();
 

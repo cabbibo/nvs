@@ -11,6 +11,8 @@ uniform float noiseChangeSpeed;
 uniform float audioPower;
 uniform float noisePower;
 uniform float returnPower;
+uniform float sampleNoiseSize;
+uniform float audioVelMultiplier;
 uniform float maxVel;
 
 uniform float dampening;
@@ -38,16 +40,23 @@ void main(){
  
   vec3 dif = pos.xyz - og.xyz;
 
+  
+  float sample = snoise( p * sampleNoiseSize );
 
-  vec2 lU =  vec2( abs(normalize( p ).x) , 0. );
+
+  vec2 lU =  vec2( abs(sample) , 0. );
+  //vec2 lU =  vec2( abs(normalize( p ).x) , 0. );
+
 
   float i1 = cos( timer * .5123 * noiseChangeSpeed);
   float i2 = cos( timer * .01 * noiseChangeSpeed + i1 );
 
+//  float sample = snoise( p * .001 );
+
   float a = (texture2D( t_audio , lU ).x) * audioPower + ( 1. - audioPower );
   float t = sin( timer  * noiseChangeSpeed) * i2 ;
   vec3 n = curlNoise( p  * ( noiseSize + t * noiseSize * noiseVariation ));
-  f +=  a * noisePower * n;//pow( length( n ) , .5 ) * normalize( n );
+  f +=  a * a * a * noisePower * n;//pow( length( n ) , .5 ) * normalize( n );
 
 
   f -= dif * returnPower;
@@ -61,7 +70,7 @@ void main(){
     vel = normalize( vel ) * maxVel;
 
   }
-  p += vel * 1.;//speed;*/
+  p += vel * 1. * (a*audioVelMultiplier + (1. - audioVelMultiplier));//speed;*/
 
 
 

@@ -32,9 +32,10 @@ function GUI( PARAMS ,  params ){
       }else{
         this.addFloat( 'soul' , p , propt );
       }
+    
     }
-
   }
+
 
 
 
@@ -49,13 +50,30 @@ function GUI( PARAMS ,  params ){
       }else{
         this.addFloat( 'body' , p , propt );
       }
+    
+    }else if(  p.type === "color" ){
+
+      this.addColor( 'body' , p ,  propt );
+
     }
 
   }
 
 }
 
-GUI.prototype.addColor = function( folder , u ){
+// Need to create an extra varible call tmp_color1  to be able to use
+GUI.prototype.addColor = function( folder , object , name ){
+
+  console.log('ass');
+  var actualObject = name.split( 'tmp_' )[1];
+  console.log( actualObject );
+
+  console.log( object );
+  this[folder].addColor( object , 'value' ).name( actualObject ).onChange(function(v){
+    this.PARAMS[folder][actualObject].value.setHex( v )
+
+  }.bind( this ) );
+
 
 }
 
