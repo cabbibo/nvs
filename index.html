@@ -123,7 +123,6 @@
 <body>
 
   <div id="GUI">
-    <h1>GUI</h1>
   </div>
   
 <script src = "lib/underscore.js"           ></script>
@@ -156,6 +155,7 @@
 
 <script src = "Text.js"                     ></script>
 <script src = "CurlMesh.js"                 ></script>
+<script src = "N2.js"                 ></script>
 
 <script>
 
@@ -199,16 +199,25 @@
 
   shaders.load( 'ss-fire' , 'fire' , 'simulation' );
   shaders.load( 'ss-weird1' , 'weird1' , 'simulation' );
+  shaders.load( 'ss-n2' , 'n2' , 'simulation' );
+  
   shaders.load( 'vs-fire' , 'fire' , 'vertex' );
   shaders.load( 'fs-weird1' , 'weird1' , 'fragment' );
   shaders.load( 'fs-fire' , 'fire' , 'fragment' );
+  
+  
+  shaders.load( 'fs-normal' , 'normal' , 'fragment' );
+  
+  
+  shaders.load( 'vs-cube' , 'cube' , 'vertex' );
+  shaders.load( 'fs-cube' , 'cube' , 'fragment' );
 
   shaders.shaderSetLoaded = function(){
    onLoad();
   }
 
 
-  var modifier = new THREE.SubdivisionModifier( 0 );
+  var modifier = new THREE.SubdivisionModifier( 2 );
   var loadedMeshes = {}
   
   var objLoader  = new THREE.OBJLoader();
@@ -232,13 +241,14 @@
 
   });*/
 
- /* objLoader.load( 'models/skull1.obj' , function( obj ){
+  objLoader.load( 'models/skull1.obj' , function( obj ){
 
     loadedMeshes['skull1'] = obj.children[0];
 
     loadedMeshes['skull1'].scale.multiplyScalar( 2 );
     loadedMeshes['skull1'].position.z = -200;
     loadedMeshes['skull1'].position.y = -400;
+    loadedMeshes['skull1'].position.x = -70;
     loadedMeshes['skull1'].updateMatrix();
 
     var smooth = loadedMeshes['skull1'].geometry;
@@ -251,7 +261,7 @@
 
     onLoad();
 
-  });*/
+  });
 
 
   /* objLoader.load( 'models/logo.obj' , function( obj ){
@@ -273,7 +283,7 @@
 
     onLoad();
 
-  });*/
+  });
 
    objLoader.load( 'models/bieb.obj' , function( obj ){
 
@@ -294,7 +304,7 @@
 
     onLoad();
 
-  });
+  });*/
 
 
 
@@ -318,12 +328,12 @@
     camera = new THREE.PerspectiveCamera( 
       50 ,
       window.innerWidth / window.innerHeight,
-      1,
-      5000
+      10,
+      10000
     );
 
     // placing our camera position so it can see everything
-    camera.position.z = 100 ;
+    camera.position.z = 2000 ;
     camera.lookAt( new THREE.Vector3() );
 
 
@@ -386,7 +396,36 @@
     Arrangements.randomSphere();
 
 
-    var t = new Text('VEERTJE', 3 );
+    var path = "img/cubemap/skybox/";
+    var format = '.jpg';
+    var urls = [
+        path + 'px' + format, path + 'nx' + format,
+        path + 'py' + format, path + 'ny' + format,
+        path + 'pz' + format, path + 'nz' + format
+    ];
+
+    var reflectionCube = THREE.ImageUtils.loadTextureCube( urls );
+    reflectionCube.format = THREE.RGBFormat;
+
+    var refractionCube = new THREE.CubeTexture( reflectionCube.image, new THREE.CubeRefractionMapping() );
+    refractionCube.format = THREE.RGBFormat;
+
+    var shader = THREE.ShaderLib[ "cube" ];
+    shader.uniforms[ "tCube" ].value = reflectionCube;
+
+    var material = new THREE.ShaderMaterial( {
+
+        fragmentShader: shader.fragmentShader,
+        vertexShader: shader.vertexShader,
+        uniforms: shader.uniforms,
+        depthWrite: false,
+        side: THREE.BackSide
+
+    } ),
+
+    mesh = new THREE.Mesh( new THREE.BoxGeometry( 5000, 5000, 5000 ), material );
+    scene.add( mesh );
+    /*var t = new Text('VEERTJE', 3 );
     t.scale.multiplyScalar( 1 );
     t.updateMatrix();
     
@@ -400,12 +439,27 @@
 
       }
       
-    });
+    });*/
 
 
-    var g = new THREE.Mesh( new THREE.IcosahedronGeometry( 400 , 7 ) );
-    gem1 = new CurlMesh( 'Background' , g ); 
+    var g = new THREE.Mesh( new THREE.CubeGeometry( 3 , 3 , 3 , 20 , 20 , 20 ) );
+    //var g = new THREE.Mesh( new THREE.IcosahedronGeometry( 3 , 4 ) );
+    gem = new CurlMesh( 'skull' , loadedMeshes.skull1 , {
+      
+      vs: shaders.vertexShaders.cube,
+      fs: shaders.fragmentShaders.cube,
 
+      body:{
+        t_refl:{type:"t" , value:reflectionCube },
+        t_refr:{type:"t" , value:refractionCube },
+        custom1:{type:"f" , value:.9 , constraints[ .8 , 1 ]},
+        custom2:{type:"f" , value:.5 , constraints[ 0 , 1 ]},
+      }
+
+    }); 
+
+    gem.soul.reset( gem.t_og.value );
+    gem.toggle();
 
   }
 
@@ -418,7 +472,15 @@
     G_UNIFORMS.time.value += G_UNIFORMS.dT.value;
 
     gem.update();
-    gem1.update();
+    //gem1.update();
+
+   /* gem.soul.debugScene.position.copy( camera.position );
+
+    tv1.set( 0 , 0, -30 );
+    tv1.applyQuaternion( camera.quaternion );
+    gem.soul.debugScene.position.add( tv1 );
+    gem.soul.debugScene.lookAt( camera.position );*/
+
 
     stats.update();
 

@@ -1,4 +1,4 @@
-function CurlMesh( title , mesh , extraParams ){
+function N2( title , mesh , extraParams ){
 
   
 
@@ -9,16 +9,26 @@ function CurlMesh( title , mesh , extraParams ){
   geometry.merge( mesh.geometry , mesh.matrix );
   
  // var geometry =  || new THREE.BoxGeometry( 1000 , 1000 , 1000 , 80 , 80 , 80 );
-  
-  
+ 
+
+  var v = geometry.vertices.length;
+
+  var vSize = Math.ceil( Math.sqrt( v ) );
+  var hSize = .5 / vSize;
+
+
+  //console.log( shaders.simulationShaders.n2 );
+ 
+  var s = shaders.setValue( shaders.simulationShaders.n2 , 'SIZE'  , vSize+"." );
+      s = shaders.setValue( s , 'HSIZE' , hSize+"" );
   
   var params =  {
 
     repelers: REPELERS,
 
-    vs: extraParams.vs || shaders.vertexShaders.fire,
-    fs: extraParams.fs || shaders.fragmentShaders.weird1,
-    ss: shaders.simulationShaders.weird1,
+    vs: shaders.vertexShaders.fire,
+    fs: shaders.fragmentShaders.normal,
+    ss: s,
 
     geometry: geometry,
 
@@ -28,19 +38,14 @@ function CurlMesh( title , mesh , extraParams ){
 
     soul:{
        
-      dampening:          { type:"f" , value: .9 , constraints:[.8 , .999] },
       noiseSize:          { type:"f" , value: .001 , constraints:[.0001 , 1.] },
       noiseVariation:     { type:"f" , value: .4   , constraints:[.01 , 1.] },
       noiseChangeSpeed:   { type:"f" , value: 1   , constraints:[.0 , 5.] },
-      audioPower:         { type:"f" , value: 1   , constraints:[.0 , 1.] },
-      noisePower:         { type:"f" , value: 30   , constraints:[0 , 100.] },
-      returnPower:        { type:"f" , value: .1   , constraints:[ .0 ,1. ] },
-      maxVel:             { type:"f" , value: 30.   , constraints:[ 0 , 100 ] },
-      sampleNoiseSize:    { type:"f" , value: .0001   , constraints:[ 0 , .001 ] },
-      audioVelMultiplier: { type:"f" , value: .3   , constraints:[ 0 , 1 ] },
-      maxVel:             { type:"f" , value: 30.   , constraints:[ 0 , 100 ] },
-      
-      t_audio:          G_UNIFORMS.t_audio,
+      noisePower:         { type:"f" , value: 1   , constraints:[0 , 10.] },
+      returnPower:        { type:"f" , value: 5000   , constraints:[ 100 ,10000 ] },
+      staticLength:       { type:"f" , value: 3.  , constraints:[ .001 ,100 ] },
+      maxVel:             { type:"f" , value: .01   , constraints:[ .00001 , .1 ] },
+      t_audio:            G_UNIFORMS.t_audio,
 
     },
 
@@ -129,6 +134,9 @@ function CurlMesh( title , mesh , extraParams ){
    domElement: gHolder 
   });
 
+
+  gem.soul.reset( gem.t_og.value );
+  
   return gem;
 
 }
