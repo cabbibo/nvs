@@ -171,6 +171,7 @@
   var cubeMapRendered = false;
 
 
+  var cubeMapSpheres = [];
   var REPELERS = [];
 
 
@@ -446,24 +447,7 @@
       
     });*/
 
-    var g = new THREE.IcosahedronGeometry( 300 , 0 );
-    var m = new THREE.MeshNormalMaterial();
-    for( var i =0; i < 100; i++ ){
-
-      var me = new THREE.Mesh( g , m );
-
-      var x = Math.random() < .5 ? 1 : -1;
-      var y = Math.random() < .5 ? 1 : -1;
-      var z = Math.random() < .5 ? 1 : -1;
-      me.position.x = (x + (Math.random() - .5 ))* 1000;
-      me.position.y = (y + (Math.random() - .5 ))* 1000;
-      me.position.z = (z + (Math.random() - .5 ))* 1000;
-
-
-      scene.add( me );
-    }
-
-    var g = new THREE.Mesh( new THREE.CubeGeometry( 3 , 3 , 3 , 20 , 20 , 20 ) );
+     var g = new THREE.Mesh( new THREE.CubeGeometry( 3 , 3 , 3 , 20 , 20 , 20 ) );
     //var g = new THREE.Mesh( new THREE.IcosahedronGeometry( 3 , 4 ) );
     gem = new CurlMesh( 'skull' , loadedMeshes.skull1 , {
       
@@ -481,6 +465,35 @@
 
     gem.soul.reset( gem.t_og.value );
     gem.toggle();
+
+    //gem.body.material.blending = THREE.AdditiveBlending;
+    //gem.body.material.transparent = true;
+    //gem.body.material.depthWrite = false;
+
+    //gem.body.materialNeedsUpdate = true;
+
+
+      var g = new THREE.IcosahedronGeometry( 1000 , 3 );
+    var m = new THREE.MeshNormalMaterial();
+    for( var i =0; i < 100; i++ ){
+
+      var me = new THREE.Mesh( g , m );
+
+      var x = Math.random() < .5 ? 1 : -1;
+      var y = Math.random() < .5 ? 1 : -1;
+      var z = Math.random() < .5 ? 1 : -1;
+      me.position.x = (x + (Math.random() - .5 ))* 1000;
+      me.position.y = (y + (Math.random() - .5 ))* 1000;
+      me.position.z = (z + (Math.random() - .5 ))* 1000;
+
+      var t = Math.random() * 2 * Math.PI;
+      var p = Math.random() * 2 * Math.PI;
+      me.position.copy( toCart( 3000 , t , p ) );
+
+      cubeMapSpheres.push( me );
+      scene.add( me );
+    }
+
 
   }
 
@@ -549,6 +562,13 @@
       gem.body.visible = true; // *cough*
 
       cubeMapRendered = true;
+
+      for( var i = 0; i < cubeMapSpheres.length; i++ ){
+
+        scene.remove( cubeMapSpheres[i] );
+
+
+      }
 
     }
 

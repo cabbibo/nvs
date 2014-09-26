@@ -1,3 +1,6 @@
+
+uniform sampler2D t_audio;
+
 uniform samplerCube t_refl;
 uniform samplerCube t_refr;
 
@@ -19,8 +22,16 @@ void main(){
 
   vec4 l_refl = textureCube( t_refl , vec3( -1. * refl.x , refl.yz ));
 
+
+  float m = abs( dot( -vCamVec , vMNorm ));
+  
+  vec4 aC = texture2D( t_audio , vec2( m , 0. ) );
+//  aC *= texture2D( t_audio , vec2( abs( refr.y ) , 0. ) );
+//  aC *= texture2D( t_audio , vec2( abs( refr.z ) , 0. ) );
+
+
   vec4 c = mix( l_refr , l_refl , custom2 );
-  gl_FragColor = c;
+  gl_FragColor = c * aC * 4.;
 
 
   
