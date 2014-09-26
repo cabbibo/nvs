@@ -178,7 +178,7 @@
 
   // TODO: make into loader
   var loaded = 0;
-  var neededToLoad = 3;
+  var neededToLoad = 2;
 
 
   var loader = new Loader();
@@ -187,7 +187,7 @@
   var clock = new THREE.Clock();
 
   var audioController = new AudioController();
-  audioController.mute.gain.value = 0;
+  /*audioController.mute.gain.value = 0;
   //var stream = new Stream(  'audio/huldra.mp3',audioController  );
   
   var userAudio = new UserAudio( audioController );
@@ -196,7 +196,23 @@
     console.log('asds');
     onLoad();
 
-  }
+  }*/
+
+    console.log( audioController );
+  
+  var audio = new Audio(),
+  // `stream_url` you'd get from 
+  // requesting http://api.soundcloud.com/tracks/6981096.json
+  url = 'http://api.soundcloud.com/tracks/169306457/stream' +
+        '?client_id=2400df97862fa2c06f486af524e4f974';
+
+  audio.src = url;
+
+  var source = audioController.ctx.createMediaElementSource(audio);
+  source.connect(audioController.gain);
+  source.mediaElement.play();
+
+    console.log( audioController );
 
   var shaders = new ShaderLoader('shaders');
 
@@ -339,7 +355,7 @@
     camera.position.z = 2000 ;
     camera.lookAt( new THREE.Vector3() );
 
-    cubeCamera = new THREE.CubeCamera( 1, 10000, 1024 );
+    cubeCamera = new THREE.CubeCamera( 1, 10000, 512 );
     cubeCamera.renderTarget.minFilter = THREE.LinearMipMapLinearFilter;
     scene.add( cubeCamera );
 
@@ -402,13 +418,18 @@
     Arrangements.randomSphere();
 
 
-    var path = "img/cubemap/space1/";
-    var format = '.png';
+    var path = "img/cubemap/skybox/";
+    var format = '.jpg';
     var urls = [
         path + 'px' + format, path + 'nx' + format,
         path + 'py' + format, path + 'ny' + format,
         path + 'pz' + format, path + 'nz' + format
     ];
+
+    cubeCamera = new THREE.CubeCamera( 10, 10000, 1024 ); // parameters: near, far, resolution
+    cubeCamera.renderTarget.minFilter = THREE.LinearMipMapLinearFilter; // mipmap filter
+    cubeCamera.position.set( 0, 0, 0 );
+    scene.add( cubeCamera );
 
     var reflectionCube = THREE.ImageUtils.loadTextureCube( urls );
     reflectionCube.format = THREE.RGBFormat;
@@ -462,9 +483,9 @@
       },
 
       body:{
-        t_refl:{type:"t" , value:reflectionCube },
-        t_refr:{type:"t" , value:refractionCube },
-        custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
+        t_refl:{type:"t" , value:cubeCamera.renderTarget },
+        t_refr:{type:"t" , value:cubeCamera.renderTarget },
+        custom1:{type:"f" , value:1. , constraints:[ .8 , 1 ]},
         custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
         custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
       }
@@ -481,9 +502,9 @@
     //gem.body.materialNeedsUpdate = true;
 
 
-      var g = new THREE.IcosahedronGeometry( 1000 , 0 );
-    var m = new THREE.MeshNormalMaterial();
-    for( var i =0; i < 1000; i++ ){
+    /*  var g = new THREE.IcosahedronGeometry( 50 , 0 );
+    var m = new THREE.MeshBasicMaterial();
+    for( var i =0; i < 100; i++ ){
 
       var me = new THREE.Mesh( g , m );
 
@@ -500,7 +521,7 @@
 
       cubeMapSpheres.push( me );
       scene.add( me );
-    }
+    }*/
 
 
   }
@@ -557,18 +578,11 @@
 
       cubeCamera.updateCubeMap( renderer, scene );
 
+      gem.body.visible = true;
       //  var reflectionCube = THREE.ImageUtils.loadTextureCube( urls );
       //reflectionCube.format = THREE.RGBFormat;
 
-      console.log( cubeCamera );
-      var refractionCube = new THREE.CubeTexture( cubeCamera.renderTarget, new THREE.CubeRefractionMapping() );
-      refractionCube.format = THREE.RGBFormat;
-
-      console.log( refractionCube );
-      gem.body.material.uniforms.t_refl.value = cubeCamera.renderTarget;
-      gem.body.material.uniforms.t_refr.value = refractionCube;
-      gem.body.visible = true; // *cough*
-
+  
      // cubeMapRendered = true;
 
      /* for( var i = 0; i < cubeMapSpheres.length; i++ ){

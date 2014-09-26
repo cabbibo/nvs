@@ -13,7 +13,7 @@ function GEM( params ){
     blending: THREE.NormalBlending,
     transparent: false,
     depthWrite: true,
-    side: THREE.DoubleSide,
+    side: THREE.FrontSide,
     
     type: 'mesh',
 
