@@ -6,6 +6,7 @@ uniform samplerCube t_refr;
 
 uniform float custom1;
 uniform float custom2;
+uniform float custom3;
 
 varying vec3 vNorm;
 varying vec3 vMNorm;
@@ -31,7 +32,7 @@ void main(){
 
 
   vec4 c = mix( l_refr , l_refl , custom2 );
-  gl_FragColor = c * aC * 4.;
+  gl_FragColor = c * aC * custom3;
 
 
   

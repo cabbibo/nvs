@@ -453,12 +453,20 @@
       
       vs: shaders.vertexShaders.cube,
       fs: shaders.fragmentShaders.cube,
+  
+      soul:{
+
+        noiseSize:{type:"f" , value:.001 , constraints:[ .00001 , .04 ]},
+        
+
+      },
 
       body:{
         t_refl:{type:"t" , value:reflectionCube },
         t_refr:{type:"t" , value:refractionCube },
         custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
         custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
+        custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
       }
 
     }); 
@@ -473,9 +481,9 @@
     //gem.body.materialNeedsUpdate = true;
 
 
-      var g = new THREE.IcosahedronGeometry( 1000 , 3 );
+      var g = new THREE.IcosahedronGeometry( 1000 , 0 );
     var m = new THREE.MeshNormalMaterial();
-    for( var i =0; i < 100; i++ ){
+    for( var i =0; i < 1000; i++ ){
 
       var me = new THREE.Mesh( g , m );
 
@@ -558,17 +566,17 @@
 
       console.log( refractionCube );
       gem.body.material.uniforms.t_refl.value = cubeCamera.renderTarget;
-      //gem.body.material.uniforms.t_refr.value = refractionCube;
+      gem.body.material.uniforms.t_refr.value = refractionCube;
       gem.body.visible = true; // *cough*
 
-      cubeMapRendered = true;
+     // cubeMapRendered = true;
 
-      for( var i = 0; i < cubeMapSpheres.length; i++ ){
+     /* for( var i = 0; i < cubeMapSpheres.length; i++ ){
 
         scene.remove( cubeMapSpheres[i] );
 
 
-      }
+      }*/
 
     }
 
