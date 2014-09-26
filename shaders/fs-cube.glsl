@@ -16,6 +16,7 @@ void main(){
   vec3 refl = reflect( -vCamVec , vMNorm );
 
   vec4 l_refr = textureCube( t_refr , vec3( -1. * refr.x , refr.yz ) );
+
   vec4 l_refl = textureCube( t_refl , vec3( -1. * refl.x , refl.yz ));
 
   vec4 c = mix( l_refr , l_refl , custom2 );

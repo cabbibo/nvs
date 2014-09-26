@@ -168,6 +168,8 @@
   var repelerMeshes = [];
   var repelersHidden = true;
 
+  var cubeMapRendered = false;
+
 
   var REPELERS = [];
 
@@ -336,6 +338,9 @@
     camera.position.z = 2000 ;
     camera.lookAt( new THREE.Vector3() );
 
+    cubeCamera = new THREE.CubeCamera( 1, 10000, 1024 );
+    cubeCamera.renderTarget.minFilter = THREE.LinearMipMapLinearFilter;
+    scene.add( cubeCamera );
 
     // Getting the container in the right location
     container     = document.createElement( 'div' );
@@ -396,8 +401,8 @@
     Arrangements.randomSphere();
 
 
-    var path = "img/cubemap/skybox/";
-    var format = '.jpg';
+    var path = "img/cubemap/space1/";
+    var format = '.png';
     var urls = [
         path + 'px' + format, path + 'nx' + format,
         path + 'py' + format, path + 'ny' + format,
@@ -441,6 +446,22 @@
       
     });*/
 
+    var g = new THREE.IcosahedronGeometry( 300 , 0 );
+    var m = new THREE.MeshNormalMaterial();
+    for( var i =0; i < 100; i++ ){
+
+      var me = new THREE.Mesh( g , m );
+
+      var x = Math.random() < .5 ? 1 : -1;
+      var y = Math.random() < .5 ? 1 : -1;
+      var z = Math.random() < .5 ? 1 : -1;
+      me.position.x = (x + (Math.random() - .5 ))* 1000;
+      me.position.y = (y + (Math.random() - .5 ))* 1000;
+      me.position.z = (z + (Math.random() - .5 ))* 1000;
+
+
+      scene.add( me );
+    }
 
     var g = new THREE.Mesh( new THREE.CubeGeometry( 3 , 3 , 3 , 20 , 20 , 20 ) );
     //var g = new THREE.Mesh( new THREE.IcosahedronGeometry( 3 , 4 ) );
@@ -465,6 +486,8 @@
 
 
   function animate(){
+
+
 
     audioController.update();
 
@@ -504,6 +527,29 @@
       //console.log( p );
       REPELERS[i].power.x = p / 256;
       
+    }
+
+
+   if( !cubeMapRendered ){
+
+      gem.body.visible = false; // *cough*
+
+      cubeCamera.updateCubeMap( renderer, scene );
+
+      //  var reflectionCube = THREE.ImageUtils.loadTextureCube( urls );
+      //reflectionCube.format = THREE.RGBFormat;
+
+      console.log( cubeCamera );
+      var refractionCube = new THREE.CubeTexture( cubeCamera.renderTarget, new THREE.CubeRefractionMapping() );
+      refractionCube.format = THREE.RGBFormat;
+
+      console.log( refractionCube );
+      gem.body.material.uniforms.t_refl.value = cubeCamera.renderTarget;
+      //gem.body.material.uniforms.t_refr.value = refractionCube;
+      gem.body.visible = true; // *cough*
+
+      cubeMapRendered = true;
+
     }
 
     renderer.render( scene , camera );
