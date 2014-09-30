@@ -14,6 +14,7 @@ function GEM( params ){
     transparent: false,
     depthWrite: true,
     side: THREE.FrontSide,
+   // side: THREE.DoubleSide,
     
     type: 'mesh',
 

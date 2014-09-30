@@ -52,13 +52,13 @@ function CurlMesh( title , mesh , extraParams ){
       custom2:{type:"f" , value: .31,  constraints:[ 0.00001 , 1]},
       custom3:{type:"f" , value: 1, constraints:[ 0.00001 , 1]},
     
-      tmp_color1:{ type:"color" , value: 0xc0ffee },
+    /*  tmp_color1:{ type:"color" , value: 0xc0ffee },
       tmp_color2:{ type:"color" , value: 0xaa55ff },
       tmp_color3:{ type:"color" , value: 0x5500ff },
 
       color1:{ type:"c" , value : new THREE.Color( 0xc0ffee ) },
       color2:{ type:"c" , value : new THREE.Color( 0xaa55ff ) },
-      color3:{ type:"c" , value : new THREE.Color( 0x5500ff ) },
+      color3:{ type:"c" , value : new THREE.Color( 0x5500ff ) },*/
       
       lightPos:{type:"v3" , value: new THREE.Vector3( 10 , 1 , 1 )},
       

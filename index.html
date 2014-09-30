@@ -178,7 +178,7 @@
 
   // TODO: make into loader
   var loaded = 0;
-  var neededToLoad = 2;
+  var neededToLoad = 3;
 
 
   var loader = new Loader();
@@ -187,7 +187,7 @@
   var clock = new THREE.Clock();
 
   var audioController = new AudioController();
-  /*audioController.mute.gain.value = 0;
+  audioController.mute.gain.value = 0;
   //var stream = new Stream(  'audio/huldra.mp3',audioController  );
   
   var userAudio = new UserAudio( audioController );
@@ -196,11 +196,10 @@
     console.log('asds');
     onLoad();
 
-  }*/
+  }
 
-    console.log( audioController );
   
-  var audio = new Audio(),
+  /*var audio = new Audio(),
   // `stream_url` you'd get from 
   // requesting http://api.soundcloud.com/tracks/6981096.json
   url = 'http://api.soundcloud.com/tracks/169306457/stream' +
@@ -210,9 +209,8 @@
 
   var source = audioController.ctx.createMediaElementSource(audio);
   source.connect(audioController.gain);
-  source.mediaElement.play();
+  source.mediaElement.play();*/
 
-    console.log( audioController );
 
   var shaders = new ShaderLoader('shaders');
 
@@ -230,23 +228,25 @@
   
   shaders.load( 'vs-cube' , 'cube' , 'vertex' );
   shaders.load( 'fs-cube' , 'cube' , 'fragment' );
+  shaders.load( 'vs-crystal' , 'crystal' , 'vertex' );
+  shaders.load( 'fs-crystal' , 'crystal' , 'fragment' );
 
   shaders.shaderSetLoaded = function(){
    onLoad();
   }
 
 
-  var modifier = new THREE.SubdivisionModifier( 2 );
+  var modifier = new THREE.SubdivisionModifier( 1 );
   var loadedMeshes = {}
   
   var objLoader  = new THREE.OBJLoader();
   
- /* objLoader.load( 'models/hand.obj' , function( obj ){
+  objLoader.load( 'models/orb.obj' , function( obj ){
 
     loadedMeshes['hand'] = obj.children[0];
 
     loadedMeshes['hand'].scale.multiplyScalar( 200 );
-    loadedMeshes['hand'].position.z = -400;
+    //loadedMeshes['hand'].position.z = -400;
     loadedMeshes['hand'].updateMatrix();
 
     var smooth = loadedMeshes['hand'].geometry;
@@ -258,7 +258,7 @@
 
     onLoad();
 
-  });*/
+  });
 
   objLoader.load( 'models/skull1.obj' , function( obj ){
 
@@ -266,7 +266,7 @@
 
     loadedMeshes['skull1'].scale.multiplyScalar( 2 );
     loadedMeshes['skull1'].position.z = -200;
-    loadedMeshes['skull1'].position.y = -400;
+    loadedMeshes['skull1'].position.y = 400;
     loadedMeshes['skull1'].position.x = -70;
     loadedMeshes['skull1'].updateMatrix();
 
@@ -277,11 +277,11 @@
     smooth.computeVertexNormals();
 
     modifier.modify( smooth );
+    console.log( smooth.vertices.length );
 
     onLoad();
 
   });
-
 
   /* objLoader.load( 'models/logo.obj' , function( obj ){
 
@@ -355,7 +355,7 @@
     camera.position.z = 2000 ;
     camera.lookAt( new THREE.Vector3() );
 
-    cubeCamera = new THREE.CubeCamera( 1, 10000, 512 );
+    cubeCamera = new THREE.CubeCamera( 20, 100000, 1024 );
     cubeCamera.renderTarget.minFilter = THREE.LinearMipMapLinearFilter;
     scene.add( cubeCamera );
 
@@ -426,7 +426,7 @@
         path + 'pz' + format, path + 'nz' + format
     ];
 
-    cubeCamera = new THREE.CubeCamera( 10, 10000, 1024 ); // parameters: near, far, resolution
+    cubeCamera = new THREE.CubeCamera( 10, 10000, 256 ); // parameters: near, far, resolution
     cubeCamera.renderTarget.minFilter = THREE.LinearMipMapLinearFilter; // mipmap filter
     cubeCamera.position.set( 0, 0, 0 );
     scene.add( cubeCamera );
@@ -452,6 +452,7 @@
 
     mesh = new THREE.Mesh( new THREE.BoxGeometry( 5000, 5000, 5000 ), material );
     scene.add( mesh );
+   
     /*var t = new Text('VEERTJE', 3 );
     t.scale.multiplyScalar( 1 );
     t.updateMatrix();
@@ -468,9 +469,9 @@
       
     });*/
 
-     var g = new THREE.Mesh( new THREE.CubeGeometry( 3 , 3 , 3 , 20 , 20 , 20 ) );
+     var g = new THREE.Mesh( new THREE.BoxGeometry( 1000 , 1000 , 1000 , 100 , 100 , 100 ) );
     //var g = new THREE.Mesh( new THREE.IcosahedronGeometry( 3 , 4 ) );
-    gem = new CurlMesh( 'skull' , loadedMeshes.skull1 , {
+    gem = new CurlMesh( 'hand' , loadedMeshes.hand , {
       
       vs: shaders.vertexShaders.cube,
       fs: shaders.fragmentShaders.cube,
@@ -483,9 +484,9 @@
       },
 
       body:{
-        t_refl:{type:"t" , value:cubeCamera.renderTarget },
-        t_refr:{type:"t" , value:cubeCamera.renderTarget },
-        custom1:{type:"f" , value:1. , constraints:[ .8 , 1 ]},
+        t_refl:{type:"t" , value:refractionCube},
+        t_refr:{type:"t" , value:refractionCube },
+        custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
         custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
         custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
       }
@@ -495,6 +496,39 @@
     gem.soul.reset( gem.t_og.value );
     gem.toggle();
 
+    /*gem1 = new CurlMesh( 'hand1' , loadedMeshes.hand , {
+      vs: shaders.vertexShaders.cube,
+      fs: shaders.fragmentShaders.cube,
+  
+      soul:{
+
+        noiseSize:{type:"f" , value:.001 , constraints:[ .00001 , .04 ]},
+        
+
+      },
+
+      body:{
+        t_refl:{type:"t" , value:refractionCube},
+        t_refr:{type:"t" , value:refractionCube },
+        custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
+        custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
+        custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
+      } 
+    });
+    gem1.soul.reset( gem1.t_og.value );
+    gem1.toggle();*/
+
+
+
+
+    for( var i =0; i < 5; i++ ){
+
+      var m = gem.body.clone();
+      m.rotation.z = ((i+1) / 6 ) * Math.PI * 2;
+
+      scene.add( m );
+
+    }
     //gem.body.material.blending = THREE.AdditiveBlending;
     //gem.body.material.transparent = true;
     //gem.body.material.depthWrite = false;
@@ -502,11 +536,26 @@
     //gem.body.materialNeedsUpdate = true;
 
 
-    /*  var g = new THREE.IcosahedronGeometry( 50 , 0 );
-    var m = new THREE.MeshBasicMaterial();
-    for( var i =0; i < 100; i++ ){
+      var g = new THREE.TetrahedronGeometry( 100 , 1 );
+      var m = new THREE.ShaderMaterial({
 
-      var me = new THREE.Mesh( g , m );
+        uniforms:{
+          t_audio:G_UNIFORMS.t_audio,
+          camPos:{type:"v3" , value:camera.position}
+        },
+        vertexShader:shaders.vertexShaders.crystal,
+        fragmentShader:shaders.fragmentShaders.crystal,
+
+        transparent:true,
+        //blending:THREE.AdditiveBlending,
+        depthWrite:false,
+        shading: THREE.FlatShading
+      });
+
+    /*var geo = new THREE.Geometry();
+    for( var i =0; i < 1000; i++ ){
+
+      var me = new THREE.Mesh( g);
 
       var x = Math.random() < .5 ? 1 : -1;
       var y = Math.random() < .5 ? 1 : -1;
@@ -514,16 +563,37 @@
       me.position.x = (x + (Math.random() - .5 ))* 1000;
       me.position.y = (y + (Math.random() - .5 ))* 1000;
       me.position.z = (z + (Math.random() - .5 ))* 1000;
+      
+      me.rotation.x = Math.random();
+      me.rotation.y = Math.random();
+      me.rotation.z = Math.random();
+      me.scale.multiplyScalar( Math.random() *Math.random() * Math.random() * 3. + .5 )
+
+
+      me.updateMatrix();
+
 
       var t = Math.random() * 2 * Math.PI;
       var p = Math.random() * 2 * Math.PI;
       me.position.copy( toCart( 3000 , t , p ) );
 
-      cubeMapSpheres.push( me );
-      scene.add( me );
-    }*/
+      //cubeMapSpheres.push( me );
+
+      me.updateMatrix();
+
+      geo.merge( g , me.matrix );
+
+     // scene.add( me );
+    }
+
+    geo.computeFaceNormals();
+    geo.computeVertexNormals();
+    var mesh = new THREE.Mesh( geo , m );
+
+    scene.add( mesh );*/
 
 
+    //gem.debug();
   }
 
 
@@ -574,7 +644,7 @@
 
    if( !cubeMapRendered ){
 
-      gem.body.visible = false; // *cough*
+     /* gem.body.visible = false; // *cough*
 
       cubeCamera.updateCubeMap( renderer, scene );
 
@@ -585,7 +655,7 @@
   
      // cubeMapRendered = true;
 
-     /* for( var i = 0; i < cubeMapSpheres.length; i++ ){
+     for( var i = 0; i < cubeMapSpheres.length; i++ ){
 
         scene.remove( cubeMapSpheres[i] );
 
