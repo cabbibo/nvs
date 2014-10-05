@@ -1,3 +1,5 @@
+const int size  = @SIZE;
+
 uniform sampler2D t_oPos;
 uniform sampler2D t_pos;
 uniform sampler2D t_og;
@@ -5,10 +7,12 @@ uniform sampler2D t_audio;
 uniform float dT;
 uniform float timer;
 
-uniform vec3 repelers[ 25 ];
-uniform vec3 velocities[ 25 ];
-uniform vec3 radii[ 25 ];
-uniform vec3 aPower[ 25 ];
+uniform float maxVel;
+
+uniform vec3 repelers[ size ];
+uniform vec3 velocities[ size ];
+uniform vec3 radii[ size ];
+uniform vec3 power[ size ];
 
 uniform float repulsionPower;
 uniform float repulsionRadius;
@@ -16,9 +20,6 @@ uniform float dampening;
 
 varying vec2 vUv;
 
-
-$simplex
-$curl
 
 void main(){
 
@@ -39,20 +40,17 @@ void main(){
 
   vec3 repel = pos.xyz - vec3( 1. , 0. , 0. );
 
-  for( int i = 0; i < 25; i++ ){
+  for( int i = 0; i < size; i++ ){
 
     vec3  rP = repelers[ i ];
     vec3  rD = pos.xyz - rP;
     float rL = max( 1. , length( rD ) );
     vec3  rN = normalize( rD );
 
-    float p = aPower[i].x;
+    float p = power[i].x;
     if( rL < p * p * p * repulsionRadius ){
 
       f +=  repulsionPower  * p * rN / (rL);
-
-        //f -= rN;
-
 
     }
 
@@ -64,7 +62,15 @@ void main(){
  
   vel += f*min( .1 , dT);
   vel *= dampening;
+  
+  if( length( vel ) > maxVel ){
+
+    vel = normalize( vel ) * maxVel;
+
+  }
+
   p += vel * 1.;//speed;*/
+
 
 
 
