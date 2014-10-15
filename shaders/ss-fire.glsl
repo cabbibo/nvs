@@ -18,6 +18,7 @@ uniform float repulsionPower;
 uniform float repulsionRadius;
 uniform float dampening;
 
+uniform vec3 modelPosition;
 varying vec2 vUv;
 
 
@@ -29,10 +30,12 @@ void main(){
   vec4 pos  = texture2D( t_pos , vUv );
 
   vec4 og   = texture2D( t_og , vUv );
-  vec3 vel  = pos.xyz - oPos.xyz;
-  vec3 p    = pos.xyz;
 
   float life = pos.w;
+
+ 
+  vec3 vel  = pos.xyz - oPos.xyz;
+  vec3 p    = pos.xyz;
   
   vec3 f = vec3( 0. , 0. , 0. );
  
@@ -43,7 +46,7 @@ void main(){
   for( int i = 0; i < size; i++ ){
 
     vec3  rP = repelers[ i ];
-    vec3  rD = pos.xyz - rP;
+    vec3  rD = (modelPosition + pos.xyz )- rP;
     float rL = max( 1. , length( rD ) );
     vec3  rN = normalize( rD );
 
@@ -72,9 +75,11 @@ void main(){
   p += vel * 1.;//speed;*/
 
 
+ // gl_FragColor = vec4( og.xyz , life );
+
 
 
   //gl_FragColor = vec4( og.xyz + sin( timer ) * 1.* vec3( vUv.x , vUv.y , 0. ), 1.  );
-  gl_FragColor = vec4( p , life );
+  gl_FragColor = vec4(p, life );
 
 }

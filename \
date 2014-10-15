@@ -1,0 +1,37 @@
+function initChoreography(){
+
+    looper.addHit( function(){ disturbRepelers( 100 )} );
+
+    looper.addHit( function(){
+      Arrangements.plane( 100 , 'z' , 0 );
+      R_VALUES.update = !R_VALUES.update;
+      if( t1 === false ){
+        R_VALUES.targetForce = .1;
+        t1 = !t1;
+      }else{
+        R_VALUES.targetForce = .01;
+        t1 = !t1;
+      }
+
+    } , {
+      measureFrequency: 4,
+      measureOffset:0,
+      percents:[ .4 , .8],
+      duration:[ 0 , 1000000 ]
+      //measureOffset: 1
+    });
+
+    looper.onLoop( 2 , function(){
+
+      var percentTilEnd = 1 - looper.percentOfLoop;
+      var timeTilEnd = percentTilEnd * looper.loopLength;
+      tweenCamera({
+        x: -681.9967079052677,
+        y: 46.99165457145572,
+        z: -150.57315433686765
+      }, timeTilEnd );
+
+    });
+
+
+}

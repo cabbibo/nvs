@@ -36,7 +36,7 @@ Arrangements = {
   },
 
 
-  cube: function( size ){
+  cube: function( size , pos ){
 
     var size = size || 10;
 
@@ -47,6 +47,8 @@ Arrangements = {
       var z = Math.random() < .5 ? size : -size; 
 
       REPELERS[i].target.set( x , y , z );
+
+      REPELERS[i].target.add( pos );
 
     }
 

@@ -47,6 +47,12 @@ function GEM( params ){
   this.soul.setUniform( 'dT'    , this.params.dT );
   this.soul.setUniform( 'timer' , this.params.time );
   this.soul.setUniform( 't_og'  , this.t_og );
+
+//   var mat = new THREE.Matrix4();
+
+   var p =  new THREE.Vector3(1000 , 0 , 0);
+//  mat.setPosition( new THREE.Vector3(1000 , 0 , 0) );
+
   
   for( var propt in this.params.soul ){
 
@@ -105,6 +111,12 @@ function GEM( params ){
   this.soul.addBoundTexture( this.body , 't_pos' , 'output' );
   this.soul.addBoundTexture( this.body , 't_oPos' , 'oOutput' );
 
+  this.soul.setUniform( 'modelPosition'  , {
+   
+    type:"v3" ,
+    value: this.body.position
+
+  });
 }
 
 GEM.prototype.addToScene = function(){
@@ -297,6 +309,14 @@ GEM.prototype.createGeometry = function(){
 GEM.prototype.update = function(){
 
   if( this.active ){
+    /*this.body.updateMatrix();
+    this.soul.setUniform( 'modelMatrix'  , {
+
+   
+    type:"m4" ,
+    value: this.body.matrix
+    
+  });*/
     this.soul.update();
   }
 

@@ -1,31 +1,61 @@
-function initTextGems(){
+function initShapeGems(){
 
-  var tg = {}
+  var sg = {}
 
   var s = new Text( 'To Be' , 1 );
 
-  tg.toBe = new RepelerMesh( '#1' , s , REPELERS , {
+
+  var g = new THREE.Mesh( new THREE.IcosahedronGeometry( 100 , 5 ) );
+
+  sg.sphere = new RepelerMesh( 'PShere' , g , REPELERS , {
       
-    vs: shaders.vertexShaders.cube,
-    fs: shaders.fragmentShaders.cube,
+  //  vs: shaders.vertexShaders.cube,
+    fs: shaders.fragmentShaders.weird2,
 
     soul:{
 
       noiseSize:{type:"f" , value:.001 , constraints:[ .00001 , .04 ]},
-      repulsionPower:     { type:"f" , value: 100. , constraints:[0  , 2000] },
-      repulsionRadius:     { type:"f" , value: 500. , constraints:[00  , 10000] },
+      repulsionPower:     { type:"f" , value: 500. , constraints:[0  , 2000] },
+      repulsionRadius:     { type:"f" , value: 1000. , constraints:[00  , 10000] },
 
 
     },
 
     body:{
-      t_refl:G_UNIFORMS.t_refl,
+      t_audio:G_UNIFORMS.t_audio,
       custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
       custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
       custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
     }
 
   });
+
+  var g = new THREE.Mesh( new THREE.PlaneGeometry( 400 , 400 , 100 , 100 ) );
+
+  sg.plane = new RepelerMesh( 'PShere' , g , REPELERS , {
+      
+  //  vs: shaders.vertexShaders.cube,
+    fs: shaders.fragmentShaders.weird2,
+
+    soul:{
+
+      noiseSize:{type:"f" , value:.001 , constraints:[ .00001 , .04 ]},
+      repulsionPower:     { type:"f" , value: 500. , constraints:[0  , 2000] },
+      repulsionRadius:     { type:"f" , value: 500. , constraints:[00  , 10000] },
+
+
+    },
+
+    body:{
+      t_audio:G_UNIFORMS.t_audio,
+      custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
+      custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
+      custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
+    }
+
+  });
+
+
 
 
 // window.setTimeout(function(){
@@ -243,7 +273,7 @@ function initTextGems(){
   });*/
 
 
-  return tg;
+  return sg;
 
 
 }

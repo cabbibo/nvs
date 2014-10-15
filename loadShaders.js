@@ -9,6 +9,7 @@ function loadShaders(){
   
   shaders.load( 'vs-fire' , 'fire' , 'vertex' );
   shaders.load( 'fs-weird1' , 'weird1' , 'fragment' );
+  shaders.load( 'fs-weird2' , 'weird2' , 'fragment' );
   shaders.load( 'fs-fire' , 'fire' , 'fragment' );
   
   
@@ -19,6 +20,9 @@ function loadShaders(){
   shaders.load( 'fs-cube' , 'cube' , 'fragment' );
   shaders.load( 'vs-crystal' , 'crystal' , 'vertex' );
   shaders.load( 'fs-crystal' , 'crystal' , 'fragment' );
+
+  shaders.load( 'vs-bees' , 'bees' , 'vertex' );
+  shaders.load( 'fs-bees' , 'bees' , 'fragment' );
 
   shaders.shaderSetLoaded = function(){
    onLoad();

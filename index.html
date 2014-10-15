@@ -134,6 +134,8 @@
 <script src = "lib/ShaderLoader.js"         ></script>
 <script src = "lib/UserAudio.js"            ></script>
 <script src = "lib/Stream.js"               ></script>
+<script src = "lib/Tween.js"               ></script>
+<script src = "lib/LoadedAudio.js"          ></script>
 <script src = "lib/AudioController.js"      ></script>
 <script src = "lib/AudioTexture.js"         ></script>
 <script src = "lib/PhysicsRenderer.js"      ></script>
@@ -141,6 +143,7 @@
 <script src = "lib/dat.gui.min.js"          ></script>
 <script src = "lib/OBJLoader.js"            ></script>
 <script src = "lib/Loader.js"               ></script>
+<script src = "lib/Looper.js"               ></script>
 <script src = "lib/SubdivisionModifier.js"  ></script>
 
 <script src="fonts/helvetiker_bold.typeface.js"></script>
@@ -166,8 +169,10 @@
 
 <script src = "initTextGems.js"             ></script>
 <script src = "initModelGems.js"            ></script>
+<script src = "initShapeGems.js"            ></script>
 <script src = "initBackground.js"           ></script>
 <script src = "initRepelers.js"             ></script>
+<script src = "initChoreography.js"             ></script>
 
 <script src = "updateRepelers.js"           ></script>
 <script src = "updateCubeMap.js"            ></script>
@@ -183,6 +188,7 @@
 
   var tv1 = new THREE.Vector3();
   var tv2 = new THREE.Vector3();
+  var tv3 = new THREE.Vector3();
 
   var cubeMapRendered = false;
   var cubeMapSpheres = [];
@@ -191,11 +197,27 @@
   
   var REPELERS = [];
 
+  var R = REPELERS;
 
+  var t1 = false;
+
+
+  var R_VALUES = {
+
+    dampening: .9,
+    springLength: 100,
+    springForce: .000003,
+    centerForce: 3.,
+    targetForce: .01,
+    windForce:  -2,
+    update: true
+
+
+  }
 
   // TODO: make into loader
   var loaded = 0;
-  var neededToLoad = 6;
+  var neededToLoad = 2;
 
 
   var controller = new Leap.Controller();
@@ -206,15 +228,16 @@
   var clock = new THREE.Clock();
 
   var audioController = new AudioController();
-  audioController.mute.gain.value = 0;
-  //var stream = new Stream(  'audio/huldra.mp3',audioController  );
-  
-  var userAudio = new UserAudio( audioController );
+  //audioController.mute.gain.value = 0;
+  var stream = new LoadedAudio(  audioController,'audio/toBe.mp3'  );
+
+  stream.onLoad = function(){onLoad()};
+ /* var userAudio = new UserAudio( audioController );
   userAudio.onStreamCreated = function(){
 
     onLoad();
 
-  }
+  }*/
 
   
   /*var audio = new Audio(),
@@ -234,7 +257,7 @@
 
 
   loadShaders();
-  loadModels();
+  //loadModels();
 
 
   var G_UNIFORMS = {
@@ -245,6 +268,13 @@
     t_refl  : { type:"t" , value: null }
 
   }
+
+  
+  var looper = new Looper( audioController , G_UNIFORMS.time , G_UNIFORMS.dT , {
+
+    beatsPerMinute: 128
+
+  });
 
 
 
@@ -263,7 +293,7 @@
     );
 
     // placing our camera position so it can see everything
-    camera.position.z = 275;
+    camera.position.z = -700;
     camera.lookAt( new THREE.Vector3() );
 
     cubeCamera = new THREE.CubeCamera( 20, 100000, 1024 );
@@ -299,12 +329,83 @@
     window.addEventListener( 'mousemove', onMouseMove , false );
    
 
-    initBackground();
+   // initBackground();
     initRepelers();
-    TextGems = initTextGems();
-    ModelGems = initModelGems();
 
 
+    var disturb = function(){
+
+      disturbRepelers( Math.random() * 20 );
+      /*looper.onNextMeasure(function(){
+         //disturb();
+      });*/
+
+
+
+    }
+    
+    
+   // looper.addHit( function(){ disturbRepelers( Math.random() * 20 ); } , {
+   //   measureFrequency: 2
+   // });
+/*
+    looper.addHit( function(){ disturbRepelers( Math.random() * 20 );  } , {
+      measureFrequency: 1,
+      duration:[ 29 , 1000000 ]
+      //measureOffset: 1
+    });
+
+    looper.addHit( function(){ R_VALUES.centerForce = .2 + Math.random() * .2; } , {
+      measureFrequency: 1,
+      duration:[ 15.117332000001625 , 1000000 ]
+      //measureOffset: 1
+    });*/
+
+    /*looper.addHit( function(){
+      Arrangements.plane( 50 , 'z' , camera.position.z - 200);
+      R_VALUES.update = !R_VALUES.update;
+      if( t1 === false ){
+        R_VALUES.targetForce = .4;
+        t1 = !t1;
+      }else{
+        R_VALUES.targetForce = .01;
+        t1 = !t1;
+      }
+
+    } , {
+      measureFrequency: 1,
+      measureOffset:0,
+      percents:[ 0.00001 , .5],
+      duration:[ 0 , 1000000 ]
+      //measureOffset: 1
+    });*/
+
+    /*looper.addHit( function(){
+      Arrangements.plane( 100 , 'z' , camera.position.z - 200);
+      R_VALUES.update = !R_VALUES.update;
+
+      if( t1 === false ){
+        R_VALUES.targetForce = .4;
+        t1 = !t1;
+      }else{
+        R_VALUES.targetForce = .01;
+        t1 = !t1;
+      }
+
+    } , {
+      measureFrequency: 8,
+      percents:[ 0 , .5],
+      duration:[ 0 , 1000000 ]
+      //measureOffset: 1
+    });*/
+
+  //  TextGems = initTextGems();
+  //  ModelGems = initModelGems();
+  
+    ShapeGems  = initShapeGems(); 
+
+    initChoreography();
+   
     //gem.debug();
     controller.connect();
   }
@@ -313,15 +414,22 @@
   function animate(){
 
 
+    //camera.position.z += 1;
 
 
     G_UNIFORMS.dT.value = clock.getDelta();
     G_UNIFORMS.time.value += G_UNIFORMS.dT.value;
-    
+
+    looper.update();
     
     audioController.update();
     stats.update();
-    controls.update();
+     controls.update();
+
+    tv1.set( 0,0,0);
+    camera.lookAt( tv1 );
+
+    TWEEN.update();
     updateRepelers();
     updateCubeMap();
     updateFingers( controller.frame() );
@@ -331,7 +439,7 @@
     requestAnimationFrame( animate );
 
   
-    for( var propt in TextGems ){
+   /* for( var propt in TextGems ){
 
       TextGems[propt].update();
 
@@ -342,6 +450,29 @@
       ModelGems[propt].update();
 
     }
+    */
+
+    for( var propt in ShapeGems ){
+
+      ShapeGems[propt].update();
+
+    }
+
+
+    if( ShapeGems.sphere.active == true ){
+      ShapeGems.sphere.body.position.z += .2;
+    }
+
+     if( ShapeGems.sphere.active == true ){
+      ShapeGems.plane.body.position.z += .5;
+    }
+
+
+    /*if( ShapeGems.sphere.retreat == true ){
+      ShapeGems.sphere.body.position.z += 1;
+    }*/
+
+
   }
 
 
@@ -377,15 +508,18 @@
     if( loaded === neededToLoad ){
 
       init();
+
+      G_UNIFORMS.dT.value = clock.getDelta();
+    G_UNIFORMS.time.value += G_UNIFORMS.dT.value;
+
+       if( stream ){ 
+        stream.play(); 
+        looper.start();
+      }
+
+
       animate();
-      
-   
-      /*if( stream ){
-      
-        stream.play();
-
-      }*/
-
+    
     }
 
   }
@@ -400,7 +534,49 @@
 
   }
 
+  function disturbRepelers( a ){
 
+    for( var i = 0; i< REPELERS.length; i++ ){
+
+      tv1.set( rH() * a , rH() * a  , rH() * a );
+      REPELERS[i].velocity.add( tv1 );
+
+    }
+
+
+  }
+
+  function rH(){ return Math.random() - .5 }
+
+
+  function tweenCamera( position , time ){
+
+    var i = {
+      x: camera.position.x,
+      y: camera.position.y,
+      z: camera.position.z
+    }
+
+    var f = {
+  
+      x: position.x,
+      y: position.y,
+      z: position.z
+    }
+
+    var t = new TWEEN.Tween( i ).to( f , time );
+
+    t.onUpdate( function(){
+
+      camera.position.x = i.x;
+      camera.position.y = i.y;
+      camera.position.z = i.z;
+
+    });
+
+    t.start();
+
+  }
 
 </script>
 
