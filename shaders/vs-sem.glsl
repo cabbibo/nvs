@@ -16,7 +16,7 @@ varying vec3 vMPos;
 
 varying vec3 vLightDir;
 
-varying float vLife;
+//varying float vLife;
 varying vec4 vAudio;
 
 varying vec3 vNorm;
@@ -26,8 +26,9 @@ varying vec3 vCamVec;
 varying vec3 vMNorm;
 
 varying vec2 vSEM;
+varying float vFR;
 
-varying vec3 vRefl;
+varying vec3 vReflection;
 
 void main(){
 
@@ -46,8 +47,9 @@ void main(){
 
   vNorm = normalize( cross( a1 , a2 ) );
 
+  float displace =  length( pos.xyz - ogPos.xyz );
 
-  vLife = length( pos.xyz - ogPos.xyz );
+ // vLife = length( pos.xyz - ogPos.xyz );
     
     //vNorm = normalize( a1 );
 
@@ -60,19 +62,21 @@ void main(){
 
 
   
+ 
+ // vColor = vec3( 1. );
   
   
   
+ 
+  vLightDir = normalize( vMPos - vec3( 1000. , 0. , 0. ) );
   
-  
-  
+ // vReflection =vNorm;//r;
   
   vec3 e = normalize( vec3( modelViewMatrix * vec4( pos.xyz , 1. ) ) );
   vec3 n = normalize( normalMatrix * vNorm );
 
   vec3 r = reflect( e, n );
 
-  vec3 vRefl = r;
   float m = 2. * sqrt( 
     pow( r.x, 2. ) + 
     pow( r.y, 2. ) + 
@@ -80,11 +84,16 @@ void main(){
   );
   vSEM = r.xy / m + .5;
 
-  vAudio = texture2D( t_audio , vec2( abs(vSEM.x) , 0. ) );
+  float fr = 1. - abs(pow( dot( e , n ) , 4. )) ; 
+
+  vReflection = r;
+  vFR = fr;
+
+  vAudio = texture2D( t_audio , vec2( abs(vNorm.x * vNorm.y * vNorm.z * 4.) , 0. ) );
 
      pos.xyz += vNorm * length(vAudio )* audioDisplacement;//01;
   vPos = pos.xyz;
-  vLightDir = normalize( vMPos - vec3( 1000. , 0. , 0. ) );
+  //vLightDir = normalize( vMPos - vec3( 1000. , 0. , 0. ) );
 
   vCamVec = normalize( cameraPosition - vMPos);
   

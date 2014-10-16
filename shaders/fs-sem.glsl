@@ -22,13 +22,13 @@ varying vec3 vMNorm;
 varying vec3 vCamPos;
 
 varying vec3 vLightDir;
-varying float vLife;
+//varying float vLife;
 
 varying vec3 vCamVec;
 
 varying vec2 vSEM;
-
-varying vec3 vRefl;
+varying float vFR;
+varying vec3 vReflection;
 
 void main(){
 
@@ -61,6 +61,6 @@ void main(){
   //gl_FragColor = vec4( normalize(vMNorm.xyz) * normalize(vMNorm.xyz) + vec3( .5) , 1. );
  
   vec4 sem = texture2D( t_sem , vSEM );
-  gl_FragColor = vec4( 0.5 * normalize( vRefl ) + 0.5 , 1. ) *   sem; //vec4( vSEM.x , 0. , vSEM.y , 1. );
+  gl_FragColor = pow( vFR, 30. ) * 1. * vAudio + vec4( 0.5 * normalize(vReflection ) + 0.7 , 1. ) *   sem; //vec4( vSEM.x , 0. , vSEM.y , 1. );
 
 }
