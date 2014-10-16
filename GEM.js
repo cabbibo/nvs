@@ -105,6 +105,7 @@ function GEM( params ){
   }else if( this.params.type === 'lines' ){
     this.body = new THREE.Lines( this.geometry , this.material );
   }else if( this.params.type === 'points' ){
+    console.log('asdas');
     this.body = new THREE.PointCloud( this.geometry , this.material );
   }
 

@@ -228,7 +228,10 @@
   var clock = new THREE.Clock();
 
   var audioController = new AudioController();
-  //audioController.mute.gain.value = 0;
+ // audioController.mute.gain.value = 0;
+
+  var TWEEN_UPDATING = true;
+  //var TWEEN_UPDATING = false;
   var stream = new LoadedAudio(  audioController,'audio/toBe.mp3'  );
 
   stream.onLoad = function(){onLoad()};
@@ -272,6 +275,7 @@
   
   var looper = new Looper( audioController , G_UNIFORMS.time , G_UNIFORMS.dT , {
 
+    //beatsPerMinute: 512
     beatsPerMinute: 128
 
   });
@@ -288,8 +292,8 @@
     camera = new THREE.PerspectiveCamera( 
       50 ,
       window.innerWidth / window.innerHeight,
-      10,
-      10000
+      1,
+      20000
     );
 
     // placing our camera position so it can see everything
@@ -403,7 +407,9 @@
   //  ModelGems = initModelGems();
   
     ShapeGems  = initShapeGems(); 
+    
 
+    
     initChoreography();
    
     //gem.debug();
@@ -429,7 +435,9 @@
     tv1.set( 0,0,0);
     camera.lookAt( tv1 );
 
-    TWEEN.update();
+    if( TWEEN_UPDATING == true ){
+      TWEEN.update();
+    }
     updateRepelers();
     updateCubeMap();
     updateFingers( controller.frame() );
@@ -456,15 +464,13 @@
 
       ShapeGems[propt].update();
 
-    }
+      if( ShapeGems[propt].movementSpeed && ShapeGems[propt].active == true ){
+
+         ShapeGems[propt].body.position.z +=  ShapeGems[propt].movementSpeed;
 
 
-    if( ShapeGems.sphere.active == true ){
-      ShapeGems.sphere.body.position.z += .2;
-    }
+      }
 
-     if( ShapeGems.sphere.active == true ){
-      ShapeGems.plane.body.position.z += .5;
     }
 
 

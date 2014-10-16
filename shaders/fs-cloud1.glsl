@@ -1,6 +1,7 @@
 
 uniform sampler2D t_normal;
 uniform sampler2D t_audio;
+uniform sampler2D sprite;
 
 uniform vec3 color2;
 uniform vec3 color1;
@@ -49,11 +50,14 @@ void main(){
   vec3 rC = color2 * pow( refl , custom1 * 30. );
   vec3 lC = color1 * pow( lamb , custom2 * 5. );
 
+  vec4 s = texture2D( sprite , vec2( gl_PointCoord.x , 1.0 - gl_PointCoord.y) );
+  
   //gl_FragColor = vec4( vUv.x, vLife /10000., vUv.y, 1. ); //aC ; //* vec4(  1000. - vMPos.y , 100. / vMPos.y , .3, 1. );
  // gl_FragColor = vec4( vec3( .5 , .4 , .2 ) + vec3( 1. , 1. , .6 ) * aC.xyz * aC1.xyz , 1. ); //aC ; //* vec4(  1000. - vMPos.y , 100. / vMPos.y , .3, 1. );
-  //gl_FragColor = vec4( (rC + lC ) + 1. * color3 * a * aC.xyz * custom3, 1. );
-
-  gl_FragColor = vec4( normalize(vMNorm.xyz) * normalize(vMNorm.xyz) + vec3( .5) , 1. );
+  //gl_FragColor = vec4( (rC + lC ) + 1. * color3 * a * aC.xyz * c
+  
+  gl_FragColor = vAudio * s * vec4(abs( normalize(vMNorm.xyz)) + vec3( .5) , .5 );
+ // gl_FragColor = vec4( 1. , 1.,1. ,1. );
 
 
 

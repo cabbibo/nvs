@@ -34,6 +34,10 @@ function initChoreography(){
       ShapeGems.sphere.toggle();
       ShapeGems.sphere.body.position.z = -500;
 
+      ShapeGems.torus1.toggle();
+     // ShapeGems.torus1.body.position.z = -500;
+
+
     });
     looper.onLoop( 1 , function(){
 
@@ -45,6 +49,9 @@ function initChoreography(){
         z: -150.57315433686765
       }, looper.loopLength* 1000 );
 
+      R_VALUES.centerForce = 1.
+      R_VALUES.windForce = -.5
+      //Shad
     });
     looper.onLoop( 2 , function(){
 
@@ -58,6 +65,31 @@ function initChoreography(){
 
     });
 
+
+    looper.onLoop( 3 , function(){
+
+      ShapeGems.points1.toggle();
+
+      SH1 = ShapeGems.points1.body.clone();
+      scene.add( SH1 );
+      SH1.scale.multiplyScalar( 30 );
+      ShapeGems.points1.body.visible = false;
+  
+      R_VALUES.centerForce = 3.
+      R_VALUES.windForce = -2
+
+      var percentTilEnd = 1 - looper.percentOfLoop;
+      var timeTilEnd = percentTilEnd * looper.loopLength;
+      tweenCamera({
+        x: -581.9967079052677,
+        y: 246.99165457145572,
+        z: 300.57315433686765
+      }, looper.loopLength* 1000 );
+
+    });
+
+
+
     looper.onLoop( 4 , function(){
 
       var percentTilEnd = 1 - looper.percentOfLoop;
@@ -65,7 +97,7 @@ function initChoreography(){
       tweenCamera({
         x: -281.9967079052677,
         y: 246.99165457145572,
-        z: 0.57315433686765
+        z: 300.57315433686765
       }, looper.loopLength* 1000 );
 
     });
@@ -77,23 +109,113 @@ function initChoreography(){
       tweenCamera({
         x: 0.9967079052677,
         y: 0.99165457145572,
-        z: 200.57315433686765
+        z: 430.57315433686765
       }, looper.loopLength* 1000 );
 
     });
 
-     looper.onLoop( 7 , function(){
+    looper.onLoop( 7 , function(){
 
       var percentTilEnd = 1 - looper.percentOfLoop;
       var timeTilEnd = percentTilEnd * looper.loopLength;
       tweenCamera({
         x: 0.9967079052677,
         y: 0.99165457145572,
-        z: 400.57315433686765
+        z: 830.57315433686765
+      }, looper.loopLength* 1000 );
+
+    });
+
+    looper.onLoop( 8, function(){
+
+      var percentTilEnd = 1 - looper.percentOfLoop;
+      var timeTilEnd = percentTilEnd * looper.loopLength;
+      tweenCamera({
+        x: 0.9967079052677,
+        y: 0.99165457145572,
+        z: 1030.57315433686765
       }, looper.loopLength* 1000 );
 
     });
 
 
+    looper.onLoop( 9, function(){
+
+      R_VALUES.centerForce = 1.
+      R_VALUES.windForce = -.5
+
+      var percentTilEnd = 1 - looper.percentOfLoop;
+      var timeTilEnd = percentTilEnd * looper.loopLength;
+      tweenCamera({
+        x: 0.9967079052677,
+        y: 0.99165457145572,
+        z: 1330.57315433686765
+      }, looper.loopLength* 1000 );
+
+    });
+
+
+
+    looper.onLoop( 11 , function(){
+
+      ShapeGems.sphere.movementSpeed = 1.4;
+
+      
+      R_VALUES.centerForce = 5.
+      R_VALUES.windForce = -3.
+
+      var percentTilEnd = 1 - looper.percentOfLoop;
+      var timeTilEnd = percentTilEnd * looper.loopLength;
+      tweenCamera({
+        x: 700.9967079052677,
+        y: 0.99165457145572,
+        z: 700.57315433686765
+      }, looper.loopLength* 1000 );
+
+    });
+
+
+
+    looper.onLoop( 15 , function(){
+
+      ShapeGems.sphere.movementSpeed = 1.4;
+
+      R_VALUES.centerForce = 1.
+      R_VALUES.windForce = -.5
+      var percentTilEnd = 1 - looper.percentOfLoop;
+      var timeTilEnd = percentTilEnd * looper.loopLength;
+      tweenCamera({
+        x: 700.9967079052677,
+        y: 0.99165457145572,
+        z: 700.57315433686765
+      }, looper.loopLength* 1000 );
+
+      ShapeGems.torus1.movementSpeed = 3.;
+
+    });
+
+    looper.onLoop( 20 , function(){
+
+      ShapeGems.sphere.movementSpeed = 1.4;
+
+      R_VALUES.centerForce = .01
+      R_VALUES.windForce = -.5
+      var percentTilEnd = 1 - looper.percentOfLoop;
+      var timeTilEnd = percentTilEnd * looper.loopLength;
+      tweenCamera({
+        x: 10000.9967079052677,
+        y: 0.99165457145572,
+        z: 10000.57315433686765
+      }, looper.loopLength * 3000 );
+
+      ShapeGems.torus1.movementSpeed = 3.;
+
+    });
+
+
+
+
+
+  //  Loop 11 ( oo oo oo eh )
 
 }

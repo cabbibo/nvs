@@ -29,10 +29,11 @@ function initShapeGems(){
     }
 
   });
+  sg.sphere.movementSpeed = .2;
 
   var g = new THREE.Mesh( new THREE.PlaneGeometry( 400 , 400 , 100 , 100 ) );
 
-  sg.plane = new RepelerMesh( 'PShere' , g , REPELERS , {
+  sg.plane = new RepelerMesh( 'Plane' , g , REPELERS , {
       
   //  vs: shaders.vertexShaders.cube,
     fs: shaders.fragmentShaders.weird2,
@@ -54,6 +55,76 @@ function initShapeGems(){
     }
 
   });
+
+
+  
+  var g = new THREE.Mesh( new THREE.TorusGeometry( 300 , 60 , 50 , 50 , 2 * Math.PI));
+
+
+  sg.torus1 = new RepelerMesh( 'Torus1' , g , REPELERS , {
+      
+  //  vs: shaders.vertexShaders.cube,
+    fs: shaders.fragmentShaders.weird2,
+
+    soul:{
+
+      noiseSize:{type:"f" , value:.001 , constraints:[ .00001 , .04 ]},
+      repulsionPower:     { type:"f" , value: 10000. , constraints:[0  , 2000] },
+      repulsionRadius:     { type:"f" , value: 5000. , constraints:[00  , 10000] },
+      dampening:     { type:"f" , value: 0.97 , constraints:[00  , 1] },
+
+
+    },
+
+    body:{
+      t_audio:G_UNIFORMS.t_audio,
+      custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
+      custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
+      custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
+    }
+
+  });
+
+  var g = new THREE.Mesh( new THREE.IcosahedronGeometry( 100 , 5 ) );
+  
+ // sg.torus1.movementSpeed = .5;
+
+
+  sg.points1 = new RepelerMesh( 'Background' , g , REPELERS , {
+      
+   // vs: shaders.vertexShaders.cloud1,
+  //  fs: shaders.fragmentShaders.cloud1,
+  //
+    fs: shaders.fragmentShaders.weird2,
+
+    //type:'points',
+    soul:{
+
+      noiseSize:{type:"f" , value:.001 , constraints:[ .00001 , .04 ]},
+      dampening:     { type:"f" , value: .98 , constraints:[0  , 1] },
+      repulsionPower:     { type:"f" , value: 500. , constraints:[0  , 2000] },
+      repulsionRadius:     { type:"f" , value: 10000. , constraints:[00  , 10000] },
+
+
+    },
+
+    body:{
+      t_audio:G_UNIFORMS.t_audio,
+      custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
+      audioDisplacement:{type:"f" , value:1 },
+      custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
+      custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
+      sprite:{ type:"t" , value: THREE.ImageUtils.loadTexture( 'img/flare.png' ) }
+    },
+
+    blending: THREE.AdditiveBlending,
+    transparent: true,
+    depthWrite: false
+
+  });
+
+  sg.points1.body.position.z = 100;
+
 
 
 
