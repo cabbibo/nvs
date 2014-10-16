@@ -115,6 +115,7 @@
       right:0px;
       top:0px;
       z-index:999;
+      display:none;
 
     }
     
@@ -160,6 +161,11 @@
 <script src = "Text.js"                     ></script>
 <script src = "CurlMesh.js"                 ></script>
 <script src = "RepelerMesh.js"              ></script>
+<script src = "Tree.js"                     ></script>
+<script src = "Mountains.js"                ></script>
+<script src = "Cloth.js"                    ></script>
+<script src = "Particles.js"                ></script>
+<script src = "RepelerMesh.js"              ></script>
 <script src = "N2.js"                       ></script>
 
 
@@ -172,7 +178,8 @@
 <script src = "initShapeGems.js"            ></script>
 <script src = "initBackground.js"           ></script>
 <script src = "initRepelers.js"             ></script>
-<script src = "initChoreography.js"             ></script>
+<script src = "initChoreography.js"         ></script>
+<script src = "initFinalScene.js"           ></script>
 
 <script src = "updateRepelers.js"           ></script>
 <script src = "updateCubeMap.js"            ></script>
@@ -210,6 +217,7 @@
     centerForce: 3.,
     targetForce: .01,
     windForce:  -2,
+    windDirection: new THREE.Vector3( 0 , 0 , 1 ),
     update: true
 
 
@@ -217,7 +225,7 @@
 
   // TODO: make into loader
   var loaded = 0;
-  var neededToLoad = 2;
+  var neededToLoad = 9;
 
 
   var controller = new Leap.Controller();
@@ -228,13 +236,46 @@
   var clock = new THREE.Clock();
 
   var audioController = new AudioController();
- // audioController.mute.gain.value = 0;
+  audioController.mute.gain.value = 0;
 
   var TWEEN_UPDATING = true;
-  //var TWEEN_UPDATING = false;
+  var TWEEN_UPDATING = false;
+
   var stream = new LoadedAudio(  audioController,'audio/toBe.mp3'  );
 
   stream.onLoad = function(){onLoad()};
+  
+  var u = THREE.UVMapping;
+
+  var normalTexture = THREE.ImageUtils.loadTexture( 'img/normals/moss_normal_map.jpg', u , function(){
+   onLoad(); 
+  });
+  
+  var flagTexture = THREE.ImageUtils.loadTexture( 'img/info.png' , u , function(){
+   onLoad(); 
+  });
+
+  var iriTexture = THREE.ImageUtils.loadTexture( 'img/iri/orangeTurq.png' , u , function(){
+    onLoad(); 
+  });
+
+   var matcap1 = THREE.ImageUtils.loadTexture( 'img/matcap/posterize.png' , u , function(){
+    onLoad(); 
+  });
+
+  var matcap2 = THREE.ImageUtils.loadTexture( 'img/matcap/posterize.png' , u , function(){
+    onLoad(); 
+  });
+
+  var matcap3 = THREE.ImageUtils.loadTexture( 'img/matcap/rough-aluminium.jpg' , u , function(){
+    onLoad(); 
+  });
+
+
+
+
+  normalTexture.wrapS = THREE.RepeatWrapping;
+  normalTexture.wrapT = THREE.RepeatWrapping;
  /* var userAudio = new UserAudio( audioController );
   userAudio.onStreamCreated = function(){
 
@@ -260,7 +301,7 @@
 
 
   loadShaders();
-  //loadModels();
+  loadModels();
 
 
   var G_UNIFORMS = {
@@ -268,14 +309,16 @@
     dT      : { type:"f" , value:0                            },
     time    : { type:"f" , value:0                            },
     t_audio : { type:"t" , value: audioController.texture     },
-    t_refl  : { type:"t" , value: null }
+    t_refl  : { type:"t" , value: null                        },
+    sample  : { type:"f" , value:0                            },
 
+    moonLight: { type:"v3" ,value: new THREE.Vector3() }
   }
 
   
   var looper = new Looper( audioController , G_UNIFORMS.time , G_UNIFORMS.dT , {
 
-    //beatsPerMinute: 512
+    //beatsPerMinute: 1//2048
     beatsPerMinute: 128
 
   });
@@ -293,7 +336,7 @@
       50 ,
       window.innerWidth / window.innerHeight,
       1,
-      20000
+      100000
     );
 
     // placing our camera position so it can see everything
@@ -326,7 +369,7 @@
     controls = new THREE.TrackballControls( camera , renderer.domElement);
 
     controls.minDistance = 1;
-    controls.maxDistance = 3000;
+    controls.maxDistance = 300000;
 
     // Making sure our renderer is always the right size
     window.addEventListener( 'resize', onWindowResize , false );
@@ -407,6 +450,8 @@
   //  ModelGems = initModelGems();
   
     ShapeGems  = initShapeGems(); 
+    FinalScene  = initFinalScene(); 
+
     
 
     
@@ -432,19 +477,25 @@
     stats.update();
      controls.update();
 
+
+     for( var i =0; i < 5; i++ ){
+     G_UNIFORMS.sample.value = i+1;
+      FinalScene.cloth.update();
+    
+   }
     tv1.set( 0,0,0);
     camera.lookAt( tv1 );
 
     if( TWEEN_UPDATING == true ){
       TWEEN.update();
     }
+
+    //FinalScene.update();
+
+
     updateRepelers();
     updateCubeMap();
     updateFingers( controller.frame() );
-
-    renderer.render( scene , camera );
-
-    requestAnimationFrame( animate );
 
   
    /* for( var propt in TextGems ){
@@ -472,6 +523,31 @@
       }
 
     }
+
+    for( var propt in FinalScene ){
+
+      FinalScene[propt].update();
+
+      if( FinalScene[propt].movementSpeed && FinalScene[propt].active == true ){
+
+         FinalScene[propt].body.position.z +=  FinalScene[propt].movementSpeed;
+
+
+      }
+
+    }
+
+    if( ShapeGems.points1.scaledBody ){
+
+      G_UNIFORMS.moonLight.value.copy( ShapeGems.points1.scaledBody.position );
+    }
+
+
+    
+    renderer.render( scene , camera );
+
+    requestAnimationFrame( animate );
+
 
 
     /*if( ShapeGems.sphere.retreat == true ){
@@ -584,6 +660,55 @@
 
   }
 
+  function tweenPosition( pos ,  position , time ){
+
+    var i = {
+      x: pos.x,
+      y: pos.y,
+      z: pos.z
+    }
+
+    var f = {
+  
+      x: position.x,
+      y: position.y,
+      z: position.z
+    }
+
+    var t = new TWEEN.Tween( i ).to( f , time );
+
+    t.onUpdate( function(){
+
+      pos.x = i.x;
+      pos.y = i.y;
+      pos.z = i.z;
+
+    });
+
+    t.start();
+
+  }
+
+  
+  function tweenValue( obj , propt ,  e , time ){
+
+    var i = {
+      x: obj[propt],
+    }
+
+    var f = {
+      x: e
+    }
+
+    var t = new TWEEN.Tween( i ).to( f , time );
+
+    t.onUpdate( function(){
+      obj[propt] = i.x;
+    });
+
+    t.start();
+
+  }
 </script>
 
 

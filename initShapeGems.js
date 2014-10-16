@@ -9,8 +9,9 @@ function initShapeGems(){
 
   sg.sphere = new RepelerMesh( 'PShere' , g , REPELERS , {
       
-  //  vs: shaders.vertexShaders.cube,
-    fs: shaders.fragmentShaders.weird2,
+    vs: shaders.vertexShaders.sem,
+    fs: shaders.fragmentShaders.sem,
+
 
     soul:{
 
@@ -26,10 +27,17 @@ function initShapeGems(){
       custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
       custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
       custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
+    t_sem: {type:"t",value:matcap3}
+
     }
 
   });
   sg.sphere.movementSpeed = .2;
+
+  console.log( 'MARDSH');
+  console.log( loadedMeshes.logo );
+  var m = new THREE.Mesh( loadedMeshes.logo.geometry , new THREE.MeshNormalMaterial() );
+  sg.sphere.body.add( m );
 
   var g = new THREE.Mesh( new THREE.PlaneGeometry( 400 , 400 , 100 , 100 ) );
 
@@ -52,6 +60,7 @@ function initShapeGems(){
       custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
       custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
       custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
+      t_sem: {type:"t",value:matcap3}
     }
 
   });
@@ -63,8 +72,8 @@ function initShapeGems(){
 
   sg.torus1 = new RepelerMesh( 'Torus1' , g , REPELERS , {
       
-  //  vs: shaders.vertexShaders.cube,
-    fs: shaders.fragmentShaders.weird2,
+    vs: shaders.vertexShaders.sem,
+    fs: shaders.fragmentShaders.sem,
 
     soul:{
 
@@ -81,6 +90,8 @@ function initShapeGems(){
       custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
       custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
       custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
+    t_sem: {type:"t",value:matcap3}
+
     }
 
   });
@@ -95,8 +106,8 @@ function initShapeGems(){
    // vs: shaders.vertexShaders.cloud1,
   //  fs: shaders.fragmentShaders.cloud1,
   //
-    fs: shaders.fragmentShaders.weird2,
-
+     vs: shaders.vertexShaders.sem,
+    fs: shaders.fragmentShaders.sem,
     //type:'points',
     soul:{
 
@@ -114,7 +125,9 @@ function initShapeGems(){
       audioDisplacement:{type:"f" , value:1 },
       custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
       custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
-      sprite:{ type:"t" , value: THREE.ImageUtils.loadTexture( 'img/flare.png' ) }
+      sprite:{ type:"t" , value: THREE.ImageUtils.loadTexture( 'img/flare.png' ) },
+       t_sem: {type:"t",value:matcap3}
+
     },
 
     blending: THREE.AdditiveBlending,

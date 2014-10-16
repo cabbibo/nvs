@@ -91,10 +91,48 @@ Arrangements = {
 
     }
 
+  },
+
+  circle: function( size , dir , pos ){
+
+    var size = size || 10;
+    var dir  =  dir || 'x';
+    var pos  =  pos || 20;
+
+    for( var i = 0; i < REPELERS.length; i++ ){
 
 
+      var x = 0 , y = 0 , z = 0;
+
+      var s = Math.ceil( Math.pow( REPELERS.length , .5 ) );
+
+      var a = 2 * Math.PI * ( i / REPELERS.length );
+      var q = pos;
+      var w = Math.sin( a ) * size ;
+      var e = Math.cos( a ) * size ;   
+
+      if( dir == 'x' ){
+        x = q;
+        y = w;
+        z = e;
+      }else if( dir == 'y' ){
+        x = w;
+        y = q;
+        z = e;
+      }else if( dir == 'z' ){
+        x = w;
+        y = e;
+        z = q;
+      }
+
+
+      REPELERS[i].target.set( x , y , z );
+
+    }
 
   }
+
+
 
 
 

@@ -28,7 +28,8 @@ function updateRepelers(){
 
       tv1.sub( tv2 );
 
-      tv2.set( 0 , 0 , R_VALUES.windForce );
+      tv2.copy( R_VALUES.windDirection );
+      tv2.multiplyScalar( R_VALUES.windForce );
       tv1.sub( tv2 );
 
       for ( var j = 0; j < REPELERS.length; j++ ){

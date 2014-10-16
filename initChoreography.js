@@ -17,7 +17,26 @@ function initChoreography(){
       measureFrequency: 4,
       measureOffset:0,
       percents:[ .4 , .8],
-      duration:[ 0 , 27 ]
+      duration:[ 0 , 13 ]
+      //measureOffset: 1
+    });
+
+    looper.addHit( function(){
+      Arrangements.circle( 100 , 'z' , 0 );
+      R_VALUES.update = !R_VALUES.update;
+      if( t1 === false ){
+        R_VALUES.targetForce = .1;
+        t1 = !t1;
+      }else{
+        R_VALUES.targetForce = .01;
+        t1 = !t1;
+      }
+
+    } , {
+      measureFrequency: 1,
+      measureOffset:0,
+      percents:[ .1 , .3],
+      duration:[ 20 , 23 ]
       //measureOffset: 1
     });
 
@@ -75,6 +94,11 @@ function initChoreography(){
       SH1.scale.multiplyScalar( 30 );
       ShapeGems.points1.body.visible = false;
   
+      ShapeGems.points1.scaledBody = SH1;
+      ShapeGems.points1.scaledBody.position.x = 100;
+      ShapeGems.points1.scaledBody.position.y = 100;
+      ShapeGems.points1.scaledBody.position.z = 100;
+
       R_VALUES.centerForce = 3.
       R_VALUES.windForce = -2
 
@@ -160,6 +184,15 @@ function initChoreography(){
 
       ShapeGems.sphere.movementSpeed = 1.4;
 
+
+      tweenPosition( ShapeGems.sphere.body.scale , {
+
+        x: 0.01,
+        y: 0.01,
+        z: 0.01 
+
+      }, looper.loopLength * 2000);
+
       
       R_VALUES.centerForce = 5.
       R_VALUES.windForce = -3.
@@ -167,39 +200,244 @@ function initChoreography(){
       var percentTilEnd = 1 - looper.percentOfLoop;
       var timeTilEnd = percentTilEnd * looper.loopLength;
       tweenCamera({
-        x: 700.9967079052677,
+        x: 1700.9967079052677,
         y: 0.99165457145572,
-        z: 700.57315433686765
+        z: 0.57315433686765
       }, looper.loopLength* 1000 );
 
     });
 
-
-
-    looper.onLoop( 15 , function(){
+    looper.onLoop( 12 , function(){
 
       ShapeGems.sphere.movementSpeed = 1.4;
 
-      R_VALUES.centerForce = 1.
-      R_VALUES.windForce = -.5
+      
+      R_VALUES.centerForce = 5.
+      R_VALUES.windForce = -3.
+      R_VALUES.dampening = .8;
+      R_VALUES.springLength = 1000;
+      R_VALUES.springForce  = .0001;
+
       var percentTilEnd = 1 - looper.percentOfLoop;
       var timeTilEnd = percentTilEnd * looper.loopLength;
       tweenCamera({
         x: 700.9967079052677,
         y: 0.99165457145572,
-        z: 700.57315433686765
+        z: -1300.57315433686765
       }, looper.loopLength* 1000 );
 
-      ShapeGems.torus1.movementSpeed = 3.;
+    });
+
+    looper.onLoop( 13 , function(){
+
+      ShapeGems.sphere.movementSpeed = 1.4;
+
+      
+       R_VALUES.centerForce = 5.
+      R_VALUES.windForce = 0;
+      R_VALUES.springLength = 1000;
+      R_VALUES.springForce  = .00003;
+
+      R_VALUES.centerForce = 1.
+      R_VALUES.windForce = -.1
+
+      var percentTilEnd = 1 - looper.percentOfLoop;
+      var timeTilEnd = percentTilEnd * looper.loopLength;
+      tweenCamera({
+        x: 0.9967079052677,
+        y: 0.99165457145572,
+        z: -2000.57315433686765
+      }, looper.loopLength* 1000 );
+
+       ShapeGems.sphere.toggle();
 
     });
+
+    looper.onLoop( 14 , function(){
+
+      ShapeGems.sphere.movementSpeed = 10.4;
+
+      
+      R_VALUES.centerForce = 2.
+      R_VALUES.windForce = 0;
+      R_VALUES.springLength = 10000;
+
+      var percentTilEnd = 1 - looper.percentOfLoop;
+      var timeTilEnd = percentTilEnd * looper.loopLength;
+      tweenCamera({
+        x: 0.9967079052677,
+        y: 0.99165457145572,
+        z: -100.57315433686765
+      }, looper.loopLength* 1000 );
+
+    });
+
+
+
+
+    looper.onLoop( 15 , function(){
+
+      ShapeGems.sphere.movementSpeed = 4.4;
+
+      ShapeGems.torus1.toggle();
+
+      R_VALUES.centerForce = 10.
+      R_VALUES.windForce = -3
+      R_VALUES.windDirection.set( 0 , 10 , 0 );
+
+      var percentTilEnd = 1 - looper.percentOfLoop;
+      var timeTilEnd = percentTilEnd * looper.loopLength;
+      tweenCamera({
+        x:1344.9818183941614, y: 600.943454544069, z: -1624.1276988800207
+
+      }, looper.loopLength* 1000 );
+
+      tweenPosition( ShapeGems.points1.scaledBody.position , {
+
+        x: -600,
+        y: 600,
+        z:-800
+
+      }, looper.loopLength * 1000);
+
+      tweenPosition( ShapeGems.points1.scaledBody.scale , {
+
+        x: 2,
+        y: 2,
+        z: 2 
+
+      }, looper.loopLength * 1000);
+
+
+
+
+      FinalScene.cloth.body.scale.multiplyScalar( 0.0001 );
+
+      FinalScene.cloth.toggle();
+
+      FinalScene.cloth.body.rotation.x = -Math.PI / 2;
+      //FinalScene.cloth.body.rotation.z = Math.PI / 4;
+      //scene.add( FinalScene.scene );
+
+      FinalScene.cloth.body.position.y = -5000;
+
+      tweenPosition( FinalScene.cloth.body.scale , {
+
+        x: 300,
+        y: 300,
+        z: 300 
+
+      }, looper.loopLength * 1000);
+
+
+      tweenPosition( FinalScene.cloth.body.position, {
+
+        x: 0,
+        y: 0,
+        z: 0 
+
+      }, looper.loopLength * 1000);
+
+     
+      //FinalScene.cloth.active = false;
+
+       FinalScene.cloth.active = true;
+       FinalScene.cloth.update();
+       FinalScene.cloth.active = false;
+
+
+     // ShapeGems.torus1.movementSpeed = 3.;
+
+    });
+
+
+    looper.onLoop( 16 , function(){
+
+
+      FinalScene.cloth.active = true;
+
+      var obj = FinalScene.cloth.body.material.uniforms.fadeOut
+      tweenValue( obj , 'value' , 0, looper.loopLength * 4000);
+
+    tweenCamera({
+        x:244.9818183941614, y: 941.943454544069, z: 1624.1276988800207
+      }, looper.loopLength* 1000 );
+     
+
+      //ShapeGems.sphere.toggle();
+
+    });
+
+   looper.onLoop( 17 , function(){
+      
+      tweenCamera({
+        x:-244.9818183941614, y: 441.943454544069, z: 1624.1276988800207
+      }, looper.loopLength* 1000 );
+
+   });
+
+
+   looper.onLoop( 18 , function(){
+
+      tweenCamera({
+        x: 0.9967079052677,
+        y: -200.99165457145572,
+        z: 2000.57315433686765
+      }, looper.loopLength* 1000 );
+
+   });
+
+    looper.onLoop( 18 , function(){
+
+
+     // FinalScene.nvs.body.scale.multiplyScalar( 0.0001 );
+        FinalScene.nvs.body.position.y = 200;
+
+      FinalScene.nvs.toggle();
+      //scene.add( FinalScene.scene );
+  
+       Arrangements.row( 1200 , 350 );
+     
+      R_VALUES.update = !R_VALUES.update;
+      R_VALUES.targetForce = .1;
+
+
+      //FinalScene.nvs.body.position.y = -5000;
+
+      tweenPosition( FinalScene.nvs.body.scale , {
+
+        x: 1,
+        y: 1,
+        z: 1 
+
+      }, looper.loopLength * 1000);
+
+
+
+     /* tweenPosition( ShapeGems.torus1.body.scale , {
+
+        x: 0.01,
+        y: 0.01,
+        z: 0.01 
+
+      }, looper.loopLength * 10);*/
+    //S
+     //  FinalScene.cloth.active = true;
+       /*FinalScene.cloth.update();
+       FinalScene.cloth.active = false;*/
+      //ShapeGems.sphere.toggle();
+
+    });
+
 
     looper.onLoop( 20 , function(){
 
       ShapeGems.sphere.movementSpeed = 1.4;
 
-      R_VALUES.centerForce = .01
-      R_VALUES.windForce = -.5
+     // Arrangements.plane( 100 , 'z' , 0 );
+     // R_VALUES.update = !R_VALUES.update;
+
+
       var percentTilEnd = 1 - looper.percentOfLoop;
       var timeTilEnd = percentTilEnd * looper.loopLength;
       tweenCamera({

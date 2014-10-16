@@ -3,7 +3,7 @@ function loadModels(){
 
   var objLoader  = new THREE.OBJLoader();
   
-  objLoader.load( 'models/hand.obj' , function( obj ){
+ /* objLoader.load( 'models/hand.obj' , function( obj ){
 
     
     loadedMeshes['hand'] = obj.children[0];
@@ -40,7 +40,7 @@ function loadModels(){
 
     onLoad();
 
-  });
+  });*/
 
   objLoader.load( 'models/logo.obj' , function( obj ){
 
@@ -65,7 +65,7 @@ function loadModels(){
 
   });
 
-  objLoader.load( 'models/orb.obj' , function( obj ){
+ /* objLoader.load( 'models/orb.obj' , function( obj ){
 
     var modifier = new THREE.SubdivisionModifier( 1 );
     
@@ -86,7 +86,7 @@ function loadModels(){
 
     onLoad();
 
-  });
+  });*/
 
 
 
