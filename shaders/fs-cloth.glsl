@@ -9,6 +9,9 @@ uniform sampler2D t_flag;
 uniform sampler2D t_normal;
 uniform sampler2D t_iri;
 
+uniform sampler2D t_sem;
+
+
 uniform float time;
 uniform float custom1;
 uniform float custom2;
@@ -24,6 +27,12 @@ varying vec3 vLightDir;
 varying vec3 vPos;
 varying vec2 vUv;
 varying vec4 vAudio;
+
+varying vec2 vSEM;
+varying float vFR;
+varying vec3 vReflection;
+
+
 
 const float smoothing = 1. / 32.;
 uniform float texScale ;
@@ -114,8 +123,11 @@ void main(){
   vec2 vDist = vec2( .5 , .5 ) - vUv;
 /*  gl_FragColor =  (1. - fadeOut*length(vDist)) * aC * vec4( iri* (abs(vMNorm)+vec3(.7)) + vec3( 1.-flag.r), 1. ) * (1. - lu * lu * lu );
   */
+
+   vec4 sem = texture2D( t_sem , vSEM );
+  gl_FragColor = (1. - fadeOut*length(vDist)) * (pow( vFR, 30. ) * 1. * vAudio + vec4( 0.5 * normalize(vReflection ) + 0.7 , 1. ) *   sem*vec4( vec3( 1.), 1. ) +  vec4(1. - sem)* vec4( vec3( 1.-flag.r), 1. ));
   
-  gl_FragColor = vec4( 1. )* (1. - lu * lu * lu );
+  //gl_FragColor = vec4( 1. )* (1. - lu * lu * lu );
 ;
   
   

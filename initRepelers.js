@@ -13,7 +13,9 @@ function initRepelers(){
 
         t_audio: G_UNIFORMS.t_audio,
         velocity: { type:"v3", value: velocity },
-        target: { type:"v3", value: target }
+        target: { type:"v3", value: target },
+    t_sem: {type:"t",value:matcap3}
+        
 
       }
 

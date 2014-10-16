@@ -28,6 +28,8 @@ varying vec3 vMNorm;
 varying vec2 vSEM;
 varying float vFR;
 
+$simplex
+
 varying vec3 vReflection;
 
 void main(){
@@ -47,7 +49,10 @@ void main(){
 
   vNorm = normalize( cross( a1 , a2 ) );
 
-  float displace =  length( pos.xyz - ogPos.xyz );
+  vec3 dif =  pos.xyz - ogPos.xyz;
+  float displace = length( dif );
+
+  float noise = snoise( pos.xyz * .01 );
 
  // vLife = length( pos.xyz - ogPos.xyz );
     
@@ -89,7 +94,7 @@ void main(){
   vReflection = r;
   vFR = fr;
 
-  vAudio = texture2D( t_audio , vec2( abs(vNorm.x * vNorm.y * vNorm.z * 4.) , 0. ) );
+  vAudio = texture2D( t_audio , vec2( abs(noise) , 0. ) );
 
      pos.xyz += vNorm * length(vAudio )* audioDisplacement;//01;
   vPos = pos.xyz;

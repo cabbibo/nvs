@@ -354,8 +354,6 @@ function initChoreography(){
     looper.onLoop( 16 , function(){
 
 
-      FinalScene.cloth.active = true;
-
       var obj = FinalScene.cloth.body.material.uniforms.fadeOut
       tweenValue( obj , 'value' , 0, looper.loopLength * 4000);
 
@@ -369,6 +367,7 @@ function initChoreography(){
     });
 
    looper.onLoop( 17 , function(){
+      FinalScene.cloth.active = true;
       
       tweenCamera({
         x:-244.9818183941614, y: 441.943454544069, z: 1624.1276988800207
@@ -379,15 +378,18 @@ function initChoreography(){
 
    looper.onLoop( 18 , function(){
 
+
+
       tweenCamera({
         x: 0.9967079052677,
-        y: -200.99165457145572,
-        z: 2000.57315433686765
+        y: -100.99165457145572,
+        z: 1500.57315433686765
       }, looper.loopLength* 1000 );
 
    });
 
-    looper.onLoop( 18 , function(){
+
+    looper.onLoop( 19 , function(){
 
 
      // FinalScene.nvs.body.scale.multiplyScalar( 0.0001 );
@@ -396,11 +398,7 @@ function initChoreography(){
       FinalScene.nvs.toggle();
       //scene.add( FinalScene.scene );
   
-       Arrangements.row( 1200 , 350 );
-     
-      R_VALUES.update = !R_VALUES.update;
-      R_VALUES.targetForce = .1;
-
+    
 
       //FinalScene.nvs.body.position.y = -5000;
 
@@ -412,23 +410,18 @@ function initChoreography(){
 
       }, looper.loopLength * 1000);
 
+      Arrangements.row( 1600 , 250 );
+     
+      R_VALUES.update = !R_VALUES.update;
+      R_VALUES.targetForce = .1;
 
+      for(var i = 0; i < REPELERS.length; i++ ){
 
-     /* tweenPosition( ShapeGems.torus1.body.scale , {
+        REPELERS[i].visible = false;
 
-        x: 0.01,
-        y: 0.01,
-        z: 0.01 
-
-      }, looper.loopLength * 10);*/
-    //S
-     //  FinalScene.cloth.active = true;
-       /*FinalScene.cloth.update();
-       FinalScene.cloth.active = false;*/
-      //ShapeGems.sphere.toggle();
+      }
 
     });
-
 
     looper.onLoop( 20 , function(){
 
@@ -441,15 +434,23 @@ function initChoreography(){
       var percentTilEnd = 1 - looper.percentOfLoop;
       var timeTilEnd = percentTilEnd * looper.loopLength;
       tweenCamera({
-        x: 10000.9967079052677,
+        x: 3000.9967079052677,
         y: 0.99165457145572,
-        z: 10000.57315433686765
-      }, looper.loopLength * 3000 );
+        z: 3000.57315433686765
+      }, looper.loopLength * 1000 );
 
       ShapeGems.torus1.movementSpeed = 3.;
 
     });
 
+
+    looper.onLoop( 21 , function(){
+
+
+       var DEMO_DONE = true;
+
+
+    });
 
 
 

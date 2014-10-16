@@ -25,6 +25,14 @@ varying vec3 vCamPos;
 varying vec3 vCamVec;
 varying vec3 vMNorm;
 
+varying vec2 vSEM;
+varying float vFR;
+
+varying mat3 vNormMat;
+
+varying vec3 vReflection;
+
+
 const float size  = @SIZE;
 const float iSize = @ISIZE;
 const float hSize = @HSIZE;
@@ -64,6 +72,7 @@ vec3 getNormal( vec3 p , vec2 uv ){
 
 void main(){
 
+  vNormMat = normalMatrix;
   vUv = position.xy;
   //vec4 pos = texture2D( t_pos , vec2( vUv.x , (1. - (vUv.y + .125)) ) );
   vec4 pos = texture2D( t_pos , vUv );
@@ -102,6 +111,27 @@ void main(){
   vAudio = texture2D( t_audio , vec2( lu , 0. ));
 
   pos.xyz += length( vAudio ) * vNorm * audioDisplacement;
+
+  vec3 e = normalize( vec3( modelViewMatrix * vec4( pos.xyz , 1. ) ) );
+  vec3 n = normalize( normalMatrix * vNorm );
+
+
+  vCamVec = e;
+  
+  vec3 r = reflect( e, n );
+
+  float m = 2. * sqrt( 
+    pow( r.x, 2. ) + 
+    pow( r.y, 2. ) + 
+    pow( r.z + 1., 2. ) 
+  );
+  vSEM = r.xy / m + .5;
+
+  float fr = 1. - abs(pow( dot( e , n ) , 4. )) ; 
+
+  vReflection = r;
+  vFR = fr;
+
 
   vPos = pos.xyz;
   

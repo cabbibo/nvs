@@ -12,30 +12,31 @@ function initFinalScene(){
   //fs.cloth.toggle();
  // var g = new THREE.Mesh( new THREE.TorusGeometry( 300 , 60 , 50 , 50 , 2 * Math.PI));
 
-  var s = new Text( 'http://nvscene.com' , 1 );
+  var s = new Text( 'nv.scene.com' , 2 );
 
-  s.scale.multiplyScalar( 30 );
+  s.scale.multiplyScalar( 50 );
+
   s.updateMatrix();
   fs.nvs = new RepelerMesh( 'NVS' , s , REPELERS , {
       
-  //  vs: shaders.vertexShaders.cube,
-    fs: shaders.fragmentShaders.weird2,
-
+    vs: shaders.vertexShaders.sem,
+    fs: shaders.fragmentShaders.sem,
     soul:{
 
       noiseSize:{type:"f" , value:.001 , constraints:[ .00001 , .04 ]},
-      repulsionPower:     { type:"f" , value: 10000. , constraints:[0  , 2000] },
-      repulsionRadius:     { type:"f" , value: 5000. , constraints:[00  , 10000] },
-     // dampening:     { type:"f" , value: 0.97 , constraints:[00  , 1] },
+      repulsionPower:     { type:"f" , value: 1500. , constraints:[0  , 2000] },
+      repulsionRadius:     { type:"f" , value: 4000. , constraints:[00  , 10000] },
+      dampening:     { type:"f" , value: 0.9 , constraints:[00  , 1] },
 
 
     },
 
     body:{
       t_audio:G_UNIFORMS.t_audio,
-      custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
+      custom1:{type:"f" , value:.8 , constraints:[ .8 , 1 ]},
       custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
       custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
+       t_sem: G_UNIFORMS.matcap     
     }
 
   });

@@ -208,6 +208,8 @@
 
   var t1 = false;
 
+  var DEMO_DONE = false;
+
 
   var R_VALUES = {
 
@@ -259,7 +261,7 @@
     onLoad(); 
   });
 
-   var matcap1 = THREE.ImageUtils.loadTexture( 'img/matcap/posterize.png' , u , function(){
+   var matcap1 = THREE.ImageUtils.loadTexture( 'img/matcap/rough-aluminium.jpg' , u , function(){
     onLoad(); 
   });
 
@@ -311,14 +313,14 @@
     t_audio : { type:"t" , value: audioController.texture     },
     t_refl  : { type:"t" , value: null                        },
     sample  : { type:"f" , value:0                            },
-
+    matcap  : { type:"t" , value: matcap1                     },
     moonLight: { type:"v3" ,value: new THREE.Vector3() }
   }
 
   
   var looper = new Looper( audioController , G_UNIFORMS.time , G_UNIFORMS.dT , {
 
-    //beatsPerMinute: 1//2048
+   // beatsPerMinute: 2000
     beatsPerMinute: 128
 
   });
@@ -475,22 +477,22 @@
     
     audioController.update();
     stats.update();
-     controls.update();
+
+    if( DEMO_DONE ){
+      controls.update();
+    }
 
 
-     for( var i =0; i < 5; i++ ){
-     G_UNIFORMS.sample.value = i+1;
-      FinalScene.cloth.update();
-    
-   }
-    tv1.set( 0,0,0);
-    camera.lookAt( tv1 );
 
     if( TWEEN_UPDATING == true ){
       TWEEN.update();
     }
 
     //FinalScene.update();
+
+     tv1.set( 0,0,0);
+    camera.lookAt( tv1 );
+
 
 
     updateRepelers();
@@ -591,16 +593,20 @@
 
       init();
 
-      G_UNIFORMS.dT.value = clock.getDelta();
-    G_UNIFORMS.time.value += G_UNIFORMS.dT.value;
+      window.setTimeout( function(){
 
-       if( stream ){ 
-        stream.play(); 
-        looper.start();
-      }
+           
+        G_UNIFORMS.dT.value = clock.getDelta();
+        G_UNIFORMS.time.value += G_UNIFORMS.dT.value;
 
 
-      animate();
+        if( stream ){ 
+          stream.play(); 
+          looper.start();
+        }
+        animate();
+
+      },2000 );
     
     }
 

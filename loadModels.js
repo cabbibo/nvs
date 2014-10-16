@@ -44,7 +44,7 @@ function loadModels(){
 
   objLoader.load( 'models/logo.obj' , function( obj ){
 
-    var modifier = new THREE.SubdivisionModifier( 1 );
+   // var modifier = new THREE.SubdivisionModifier( 1 );
     
     loadedMeshes['logo'] = obj.children[0];
 
@@ -53,13 +53,13 @@ function loadModels(){
     //loadedMeshes['logo'].position.y = -400;
     loadedMeshes['logo'].updateMatrix();
 
-    var smooth = loadedMeshes['logo'].geometry;
+   /* var smooth = loadedMeshes['logo'].geometry;
     
     smooth.mergeVertices();
     smooth.computeFaceNormals();
     smooth.computeVertexNormals();
 
-    modifier.modify( smooth );
+    modifier.modify( smooth );*/
 
     onLoad();
 

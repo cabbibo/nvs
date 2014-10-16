@@ -44,7 +44,7 @@ function Cloth( title , mesh , extraParams ){
 
     soul:{
       
-      windSpeed:     { type:"f" , value: .01  , constraints:[ 0 , .3] },
+      windSpeed:     { type:"f" , value: .06  , constraints:[ 0 , .3] },
       windDepth:     { type:"f" , value: .3  , constraints:[ 0 , 1] },
       windHeight:     { type:"f" , value: .3  , constraints:[ 0 , 1] },
       windDirection:      { type:"v3" ,value: dir  },
@@ -75,7 +75,9 @@ function Cloth( title , mesh , extraParams ){
       normalScale: { type:"f" , value: 0.4   , constraints:[ 0 , 1. ] },
       t_flag: { type:"t" , value: flagTexture }, 
       t_normal: { type:"t" , value: normalTexture }, 
-      t_iri: { type:"t" , value: iriTexture }, 
+      t_iri: { type:"t" , value: iriTexture },
+      t_sem: G_UNIFORMS.matcap   
+      
     },
 
   }

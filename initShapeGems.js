@@ -5,7 +5,7 @@ function initShapeGems(){
   var s = new Text( 'To Be' , 1 );
 
 
-  var g = new THREE.Mesh( new THREE.IcosahedronGeometry( 100 , 5 ) );
+  var g = new THREE.Mesh( new THREE.IcosahedronGeometry( 100 , 6 ) );
 
   sg.sphere = new RepelerMesh( 'PShere' , g , REPELERS , {
       
@@ -27,8 +27,7 @@ function initShapeGems(){
       custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
       custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
       custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
-    t_sem: {type:"t",value:matcap3}
-
+    t_sem: G_UNIFORMS.matcap   
     }
 
   });
@@ -36,7 +35,7 @@ function initShapeGems(){
 
   console.log( 'MARDSH');
   console.log( loadedMeshes.logo );
-  var m = new THREE.Mesh( loadedMeshes.logo.geometry , new THREE.MeshNormalMaterial() );
+  var m = new THREE.Mesh( loadedMeshes.logo.geometry , new THREE.MeshBasicMaterial({color:0x000000}) );
   sg.sphere.body.add( m );
 
   var g = new THREE.Mesh( new THREE.PlaneGeometry( 400 , 400 , 100 , 100 ) );
@@ -60,16 +59,17 @@ function initShapeGems(){
       custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
       custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
       custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
-      t_sem: {type:"t",value:matcap3}
+      t_sem: G_UNIFORMS.matcap   
     }
 
   });
 
 
   
-  var g = new THREE.Mesh( new THREE.TorusGeometry( 300 , 60 , 50 , 50 , 2 * Math.PI));
+  //var g = new THREE.Mesh( new THREE.TorusGeometry( 300 , 60 , 50 , 50 , 2 * Math.PI));
 
 
+  var g = new THREE.Mesh( new THREE.TorusGeometry( 300 , 60 , 50 , 200 , 2 * Math.PI));
   sg.torus1 = new RepelerMesh( 'Torus1' , g , REPELERS , {
       
     vs: shaders.vertexShaders.sem,
@@ -90,8 +90,7 @@ function initShapeGems(){
       custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
       custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
       custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
-    t_sem: {type:"t",value:matcap3}
-
+    t_sem: G_UNIFORMS.matcap   
     }
 
   });
@@ -126,13 +125,12 @@ function initShapeGems(){
       custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
       custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
       sprite:{ type:"t" , value: THREE.ImageUtils.loadTexture( 'img/flare.png' ) },
-       t_sem: {type:"t",value:matcap3}
-
+       t_sem:G_UNIFORMS.matcap   
     },
 
-    blending: THREE.AdditiveBlending,
-    transparent: true,
-    depthWrite: false
+    //blending: THREE.AdditiveBlending,
+    //transparent: true,
+    //depthWrite: false
 
   });
 
