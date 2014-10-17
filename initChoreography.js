@@ -447,7 +447,7 @@ function initChoreography(){
     looper.onLoop( 21 , function(){
 
 
-       var DEMO_DONE = true;
+       DEMO_DONE = true;
 
 
     });
