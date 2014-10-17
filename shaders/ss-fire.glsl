@@ -51,7 +51,7 @@ void main(){
     vec3  rN = normalize( rD );
 
     float p = power[i].x;
-    if( rL < p * p * p * repulsionRadius ){
+    if( rL <( p * p * p +.05 ) * repulsionRadius ){
 
       f +=  repulsionPower  * p * rN / (rL);
 
