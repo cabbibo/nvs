@@ -115,7 +115,7 @@
       right:0px;
       top:0px;
       z-index:999;
-      display:none;
+      //display:none;
 
     }
     
@@ -179,6 +179,7 @@
 <script src = "initShapeGems.js"            ></script>
 <script src = "initBackground.js"           ></script>
 <script src = "initRepelers.js"             ></script>
+<script src = "initSnowflakes.js"           ></script>
 <script src = "initChoreography.js"         ></script>
 <script src = "initFinalScene.js"           ></script>
 
@@ -239,7 +240,7 @@
   var clock = new THREE.Clock();
 
   var audioController = new AudioController();
-  audioController.mute.gain.value = 0;
+  //audioController.mute.gain.value = 0;
 
   var TWEEN_UPDATING = true;
  // var TWEEN_UPDATING = false;
@@ -250,7 +251,10 @@
   
   var u = THREE.UVMapping;
 
-  var normalTexture = THREE.ImageUtils.loadTexture( 'img/normals/moss_normal_map.jpg', u , function(){
+  /*var normalTexture = THREE.ImageUtils.loadTexture( 'img/normals/moss_normal_map.jpg', u , function(){
+   onLoad(); 
+ });*/
+ var normalTexture = THREE.ImageUtils.loadTexture( 'img/normals/chesterfield.png', u , function(){
    onLoad(); 
   });
   
@@ -326,7 +330,7 @@
   
   var looper = new Looper( audioController , G_UNIFORMS.time , G_UNIFORMS.dT , {
 
-   // beatsPerMinute: 2000
+   // beatsPerMinute: 2048 
     beatsPerMinute: 128
 
   });
@@ -350,7 +354,7 @@
     );
 
     // placing our camera position so it can see everything
-    camera.position.z = -200;
+    camera.position.z = -700;
     camera.lookAt( new THREE.Vector3() );
 
     cubeCamera = new THREE.CubeCamera( 20, 100000, 1024 );
@@ -393,148 +397,32 @@
     var disturb = function(){
 
       disturbRepelers( Math.random() * 20 );
-      /*looper.onNextMeasure(function(){
-         //disturb();
-      });*/
-
 
 
     }
 
 
-    for( var i = 0; i < 6; i++ ){
 
-      var attributes = {
-        normal:{type:"v3" , value:null },
-        fade: { type:"f" , value:null },
-        edge: { type:"f" , value:null },
-        id: { type:"f" , value:null }
-      }
-      var vs = shaders.vertexShaders.snow;
-      var fs = shaders.fragmentShaders.snow;
+    Snowflakes = initSnowflakes();
+    
+    // depthWrite: false
 
-      var uniforms = {
 
-        matcap:G_UNIFORMS.matcap,
-        filled:{ type:"f", value: 0 }
-
-      }
-      var material = new THREE.ShaderMaterial({
-
-        attributes: attributes,
-        uniforms:uniforms,
-        vertexShader: vs,
-        fragmentShader: fs,
-        //side: THREE.DoubleSide,
-        transparent: true,
-       // depthWrite: false
-
-      });
-
-      var geometry = new SnowflakeGeometry();
-
-      var mesh = new THREE.Mesh( geometry, material );
-
-      mesh.filled = uniforms.filled;
-
-      mesh.addToScene = function( length ){
-
-        var l = length || 1;
-        scene.add( this );
-        tweenValue( this.filled , 'value' , 10 , looper.loopLength * l * 1000);
-      
-      }
-
-      mesh.removeFromScene = function( length ){
-
-        var l = length || 1;
-        scene.add( this );
-        tweenValue( this.filled , 'value' , 0 , looper.loopLength * l * 1000 , function(){
-
-          scene.remove( this );
-          
-        }.bind( this ));
-        
-      
-      }
-
-      snowflakes.push( mesh );
-
-    }
-
-    snowflakes[0].rotation.y = Math.PI;
-
-    snowflakes[0].addToScene(1);
-
-    setTimeout(function(){
-      snowflakes[0].removeFromScene( 1 );
-    }, 10000 );
-    // looper.addHit( function(){ disturbRepelers( Math.random() * 20 ); } , {
-   //   measureFrequency: 2
-   // });
-/*
-    looper.addHit( function(){ disturbRepelers( Math.random() * 20 );  } , {
-      measureFrequency: 1,
-      duration:[ 29 , 1000000 ]
-      //measureOffset: 1
-    });
-
-    looper.addHit( function(){ R_VALUES.centerForce = .2 + Math.random() * .2; } , {
-      measureFrequency: 1,
-      duration:[ 15.117332000001625 , 1000000 ]
-      //measureOffset: 1
-    });*/
-
-    /*looper.addHit( function(){
-      Arrangements.plane( 50 , 'z' , camera.position.z - 200);
-      R_VALUES.update = !R_VALUES.update;
-      if( t1 === false ){
-        R_VALUES.targetForce = .4;
-        t1 = !t1;
-      }else{
-        R_VALUES.targetForce = .01;
-        t1 = !t1;
-      }
-
-    } , {
-      measureFrequency: 1,
-      measureOffset:0,
-      percents:[ 0.00001 , .5],
-      duration:[ 0 , 1000000 ]
-      //measureOffset: 1
-    });*/
-
-    /*looper.addHit( function(){
-      Arrangements.plane( 100 , 'z' , camera.position.z - 200);
-      R_VALUES.update = !R_VALUES.update;
-
-      if( t1 === false ){
-        R_VALUES.targetForce = .4;
-        t1 = !t1;
-      }else{
-        R_VALUES.targetForce = .01;
-        t1 = !t1;
-      }
-
-    } , {
-      measureFrequency: 8,
-      percents:[ 0 , .5],
-      duration:[ 0 , 1000000 ]
-      //measureOffset: 1
-    });*/
-
-  //  TextGems = initTextGems();
-  //  ModelGems = initModelGems();
-  
     ShapeGems  = initShapeGems(); 
     FinalScene  = initFinalScene(); 
-
     
+    initChoreography();
 
-    
-    //initChoreography();
+  /*  
+    FinalScene.cloth.body.scale.multiplyScalar(300);
+    FinalScene.cloth.toggle();
+    FinalScene.cloth.body.rotation.x = -Math.PI / 2;
+
+    FinalScene.cloth.active = true;
+    FinalScene.cloth.update();
+    //FinalScene.cloth.active = false;*/
+
    
-    //gem.debug();
     controller.connect();
   }
 
@@ -574,20 +462,6 @@
     updateCubeMap();
     updateFingers( controller.frame() );
 
-  
-   /* for( var propt in TextGems ){
-
-      TextGems[propt].update();
-
-    }
-
-    for( var propt in ModelGems ){
-
-      ModelGems[propt].update();
-
-    }
-    */
-
     for( var propt in ShapeGems ){
 
       ShapeGems[propt].update();
@@ -605,13 +479,7 @@
 
       FinalScene[propt].update();
 
-      if( FinalScene[propt].movementSpeed && FinalScene[propt].active == true ){
-
-         FinalScene[propt].body.position.z +=  FinalScene[propt].movementSpeed;
-
-
-      }
-
+    
     }
 
     if( ShapeGems.points1.scaledBody ){
@@ -619,18 +487,9 @@
       G_UNIFORMS.moonLight.value.copy( ShapeGems.points1.scaledBody.position );
     }
 
-
-    
+        
     renderer.render( scene , camera );
-
     requestAnimationFrame( animate );
-
-
-
-    /*if( ShapeGems.sphere.retreat == true ){
-      ShapeGems.sphere.body.position.z += 1;
-    }*/
-
 
   }
 

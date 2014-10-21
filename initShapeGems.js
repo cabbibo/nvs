@@ -35,21 +35,59 @@ function initShapeGems(){
 
   console.log( 'MARDSH');
   console.log( loadedMeshes.logo );
-  var m = new THREE.Mesh( loadedMeshes.logo.geometry , new THREE.MeshBasicMaterial({color:0x000000}) );
-  sg.sphere.body.add( m );
+  var g = new THREE.Mesh( loadedMeshes.logo.geometry , new THREE.MeshBasicMaterial({color:0x000000}) );
+  sg.sphere.body.add( g );
 
-  var g = new THREE.Mesh( new THREE.PlaneGeometry( 400 , 400 , 100 , 100 ) );
+  var g = new THREE.Mesh( loadedMeshes.logo.geometry );
+  g.scale.multiplyScalar( 20 );
+  g.position.z = 150;
+  g.updateMatrix();
 
-  sg.plane = new RepelerMesh( 'Plane' , g , REPELERS , {
+  sg.logo = new RepelerMesh( 'Logo' , g , REPELERS , {
       
   //  vs: shaders.vertexShaders.cube,
-    fs: shaders.fragmentShaders.weird2,
+    vs: shaders.vertexShaders.sem,
+    fs: shaders.fragmentShaders.sem,
+
+
 
     soul:{
 
       noiseSize:{type:"f" , value:.001 , constraints:[ .00001 , .04 ]},
-      repulsionPower:     { type:"f" , value: 500. , constraints:[0  , 2000] },
-      repulsionRadius:     { type:"f" , value: 500. , constraints:[00  , 10000] },
+      repulsionPower:     { type:"f" , value:1500. , constraints:[0  , 2000] },
+      repulsionRadius:     { type:"f" , value: 1500. , constraints:[00  , 10000] },
+
+
+    },
+
+    body:{
+      t_audio:G_UNIFORMS.t_audio,
+      custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
+      custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
+      custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
+      t_sem: G_UNIFORMS.matcap   
+    }
+
+  });
+
+
+
+  var g = new THREE.Mesh( new THREE.PlaneGeometry( 400 , 400 , 300 , 300 ) );
+  g.position.z = 100;
+  g.updateMatrix();
+  sg.cube = new RepelerMesh( 'Plane' , g , REPELERS , {
+      
+  //  vs: shaders.vertexShaders.cube,
+    vs: shaders.vertexShaders.sem,
+    fs: shaders.fragmentShaders.sem,
+
+
+
+    soul:{
+
+      noiseSize:{type:"f" , value:.001 , constraints:[ .00001 , .04 ]},
+      repulsionPower:     { type:"f" , value: 1000. , constraints:[0  , 2000] },
+      repulsionRadius:     { type:"f" , value: 2000. , constraints:[00  , 10000] },
 
 
     },

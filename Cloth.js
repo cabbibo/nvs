@@ -69,10 +69,10 @@ function Cloth( title , mesh , extraParams ){
       t_audio:            G_UNIFORMS.t_audio,
       lightPos:           G_UNIFORMS.moonLight,
       audioDisplacement: { type:"f" , value: 0   , constraints:[ 0 , .1 ] },
-      texScale: { type:"f" , value: 10   , constraints:[ 0 , 10 ] },
+      texScale: { type:"f" , value: 15  , constraints:[ 0 , 1000 ] },
 
       fadeOut:{type:"f" , value: 3 },
-      normalScale: { type:"f" , value: 0.4   , constraints:[ 0 , 1. ] },
+      normalScale: { type:"f" , value: 1.6   , constraints:[ 0 , 10. ] },
       t_flag: { type:"t" , value: flagTexture }, 
       t_normal: { type:"t" , value: normalTexture }, 
       t_iri: { type:"t" , value: iriTexture },

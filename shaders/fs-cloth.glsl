@@ -37,6 +37,10 @@ varying vec3 vReflection;
 const float smoothing = 1. / 32.;
 uniform float texScale ;
 uniform float normalScale;
+
+$semLookup
+
+
 void main(){
 
   vec2 tLookup = vec2( vUv );
@@ -75,7 +79,7 @@ void main(){
   vec3 fNorm =  normalize( tsn * mapN ); 
 
 
-  vec3 refl = reflect( -vLightDir , fNorm );
+  vec3 refl = reflect( vLightDir , fNorm );
   float reflFR = dot( -refl , normalize( vCamVec ) );
 
   vec3 a = texture2D( t_audio , vec2( abs(sin(dot( -vLightDir , fNorm )*1.)) , 0. ) ).xyz;
@@ -110,6 +114,8 @@ void main(){
   float lu = abs(dot( vCamVec , vMNorm ));
   float luf = abs(dot( vCamVec , fNorm ));
   vec4 aC = texture2D( t_audio , vec2( luf , 0. ));
+
+  vec2 fSEM = semLookup( -vCamVec , fNorm );
  // vec4 c = mix( r , b , (1. -  m  ));
   //gl_FragColor = vec4( abs( vMNorm ) , 1. );//c + aC;// c * aC * custom3;
   //gl_FragColor = aC *(1.-lu*lu*lu); //* vec4(vUv.x , .1 , vUv.y , 1. );//c + aC;// c * aC * custom3;
@@ -124,8 +130,15 @@ void main(){
 /*  gl_FragColor =  (1. - fadeOut*length(vDist)) * aC * vec4( iri* (abs(vMNorm)+vec3(.7)) + vec3( 1.-flag.r), 1. ) * (1. - lu * lu * lu );
   */
 
-   vec4 sem = texture2D( t_sem , vSEM );
-  gl_FragColor = (1. - fadeOut*length(vDist)) * (pow( vFR, 30. ) * 1. * vAudio + vec4( 0.5 * normalize(vReflection ) + 0.7 , 1. ) *   sem*vec4( vec3( 1.), 1. ) +  vec4(1. - sem)* vec4( vec3( 1.-flag.r), 1. ));
+   vec4 sem = texture2D( t_sem , fSEM );
+  gl_FragColor = aC* vec4( fNorm * .5 + .5 , 1. ) + ( vec4( 1.-aC) )* sem * vec4( fNorm * .5 + .5 , 1. ) +  vec4( vec3( 1.-flag.r), 1. );
+   /* (1. - fadeOut*length(vDist)) 
+    * (pow( vFR, 30. ) * 1. * aC 
+    + vec4( 0.5 * abs(normalize(fNorm)) + 0.7 , 1. ) 
+    * sem 
+    * vec4( vec3( 1.), 1. ) 
+    +  vec4(1. - sem)
+    * vec4( vec3( 1.-flag.r), 1. ));*/
   
   //gl_FragColor = vec4( 1. )* (1. - lu * lu * lu );
 ;
