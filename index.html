@@ -239,7 +239,7 @@
   var clock = new THREE.Clock();
 
   var audioController = new AudioController();
-  //audioController.mute.gain.value = 0;
+  audioController.mute.gain.value = 0;
 
   var TWEEN_UPDATING = true;
  // var TWEEN_UPDATING = false;
@@ -316,8 +316,12 @@
     sample    : { type:"f" , value:0                            },
     matcap    : { type:"t" , value: matcap1                     },
     moonLight : { type:"v3" ,value: new THREE.Vector3() },
-    filled    : { type:"f" , value:0 }
+
   }
+
+
+  var snowflakes = [];
+
 
   
   var looper = new Looper( audioController , G_UNIFORMS.time , G_UNIFORMS.dT , {
@@ -326,6 +330,8 @@
     beatsPerMinute: 128
 
   });
+
+ 
 
 
 
@@ -340,11 +346,11 @@
       50 ,
       window.innerWidth / window.innerHeight,
       1,
-      100000
+      10000
     );
 
     // placing our camera position so it can see everything
-    camera.position.z = -700;
+    camera.position.z = -200;
     camera.lookAt( new THREE.Vector3() );
 
     cubeCamera = new THREE.CubeCamera( 20, 100000, 1024 );
@@ -396,6 +402,8 @@
     }
 
 
+    for( var i = 0; i < 6; i++ ){
+
       var attributes = {
         normal:{type:"v3" , value:null },
         fade: { type:"f" , value:null },
@@ -404,11 +412,17 @@
       }
       var vs = shaders.vertexShaders.snow;
       var fs = shaders.fragmentShaders.snow;
-  
+
+      var uniforms = {
+
+        matcap:G_UNIFORMS.matcap,
+        filled:{ type:"f", value: 0 }
+
+      }
       var material = new THREE.ShaderMaterial({
 
         attributes: attributes,
-        uniforms:   G_UNIFORMS,
+        uniforms:uniforms,
         vertexShader: vs,
         fragmentShader: fs,
         //side: THREE.DoubleSide,
@@ -419,13 +433,43 @@
 
       var geometry = new SnowflakeGeometry();
 
-      var mesh = new THREE.Mesh( geometry, material );      var g = new THREE.Mesh( new SnowflakeGeometry() );
+      var mesh = new THREE.Mesh( geometry, material );
 
-      mesh.rotation.y = Math.PI;
+      mesh.filled = uniforms.filled;
 
-    scene.add(mesh );
+      mesh.addToScene = function( length ){
 
-   // looper.addHit( function(){ disturbRepelers( Math.random() * 20 ); } , {
+        var l = length || 1;
+        scene.add( this );
+        tweenValue( this.filled , 'value' , 10 , looper.loopLength * l * 1000);
+      
+      }
+
+      mesh.removeFromScene = function( length ){
+
+        var l = length || 1;
+        scene.add( this );
+        tweenValue( this.filled , 'value' , 0 , looper.loopLength * l * 1000 , function(){
+
+          scene.remove( this );
+          
+        }.bind( this ));
+        
+      
+      }
+
+      snowflakes.push( mesh );
+
+    }
+
+    snowflakes[0].rotation.y = Math.PI;
+
+    snowflakes[0].addToScene(1);
+
+    setTimeout(function(){
+      snowflakes[0].removeFromScene( 1 );
+    }, 10000 );
+    // looper.addHit( function(){ disturbRepelers( Math.random() * 20 ); } , {
    //   measureFrequency: 2
    // });
 /*
@@ -488,7 +532,7 @@
     
 
     
-    initChoreography();
+    //initChoreography();
    
     //gem.debug();
     controller.connect();
@@ -726,7 +770,7 @@
   }
 
   
-  function tweenValue( obj , propt ,  e , time ){
+  function tweenValue( obj , propt ,  e , time , callback ){
 
     var i = {
       x: obj[propt],
@@ -744,6 +788,13 @@
     t.onUpdate( function(t){
 
       obj[propt] = i.x;
+
+
+    });
+
+    t.onComplete( function(){
+
+      if( callback ) callback();
 
     });
 
