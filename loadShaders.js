@@ -23,6 +23,8 @@ function loadShaders(){
 
   shaders.load( 'vs-bees' , 'bees' , 'vertex' );
   shaders.load( 'fs-bees' , 'bees' , 'fragment' );
+  shaders.load( 'vs-snow' , 'snow' , 'vertex' );
+  shaders.load( 'fs-snow' , 'snow' , 'fragment' );
 
   shaders.load( 'vs-cloud1' , 'cloud1' , 'vertex' );
   shaders.load( 'fs-cloud1' , 'cloud1' , 'fragment' );

@@ -24,8 +24,8 @@ function initFinalScene(){
     soul:{
 
       noiseSize:{type:"f" , value:.001 , constraints:[ .00001 , .04 ]},
-      repulsionPower:     { type:"f" , value: 1500. , constraints:[0  , 2000] },
-      repulsionRadius:     { type:"f" , value: 4000. , constraints:[00  , 10000] },
+      repulsionPower:     { type:"f" , value: 2500. , constraints:[0  , 2000] },
+      repulsionRadius:     { type:"f" , value: 300. , constraints:[00  , 10000] },
       dampening:     { type:"f" , value: 0.9 , constraints:[00  , 1] },
 
 

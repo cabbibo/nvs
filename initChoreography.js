@@ -57,6 +57,8 @@ function initChoreography(){
      // ShapeGems.torus1.body.position.z = -500;
 
 
+      tweenValue( G_UNIFORMS.filled , 'value' , 10, looper.loopLength * 5000);
+
     });
     looper.onLoop( 1 , function(){
 
@@ -70,6 +72,9 @@ function initChoreography(){
 
       R_VALUES.centerForce = 1.
       R_VALUES.windForce = -.5
+
+ 
+
       //Shad
     });
     looper.onLoop( 2 , function(){
@@ -81,6 +86,7 @@ function initChoreography(){
         y: 46.99165457145572,
         z: -150.57315433686765
       }, looper.loopLength* 1000 );
+
 
     });
 
@@ -159,6 +165,7 @@ function initChoreography(){
         y: 0.99165457145572,
         z: 1030.57315433686765
       }, looper.loopLength* 1000 );
+
 
     });
 

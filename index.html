@@ -163,6 +163,7 @@
 <script src = "RepelerMesh.js"              ></script>
 <script src = "Tree.js"                     ></script>
 <script src = "Mountains.js"                ></script>
+<script src = "SnowflakeGeometry.js"        ></script>
 <script src = "Cloth.js"                    ></script>
 <script src = "Particles.js"                ></script>
 <script src = "RepelerMesh.js"              ></script>
@@ -308,13 +309,14 @@
 
   var G_UNIFORMS = {
 
-    dT      : { type:"f" , value:0                            },
-    time    : { type:"f" , value:0                            },
-    t_audio : { type:"t" , value: audioController.texture     },
-    t_refl  : { type:"t" , value: null                        },
-    sample  : { type:"f" , value:0                            },
-    matcap  : { type:"t" , value: matcap1                     },
-    moonLight: { type:"v3" ,value: new THREE.Vector3() }
+    dT        : { type:"f" , value:0                            },
+    time      : { type:"f" , value:0                            },
+    t_audio   : { type:"t" , value: audioController.texture     },
+    t_refl    : { type:"t" , value: null                        },
+    sample    : { type:"f" , value:0                            },
+    matcap    : { type:"t" , value: matcap1                     },
+    moonLight : { type:"v3" ,value: new THREE.Vector3() },
+    filled    : { type:"f" , value:0 }
   }
 
   
@@ -392,8 +394,37 @@
 
 
     }
-    
-    
+
+
+      var attributes = {
+        normal:{type:"v3" , value:null },
+        fade: { type:"f" , value:null },
+        edge: { type:"f" , value:null },
+        id: { type:"f" , value:null }
+      }
+      var vs = shaders.vertexShaders.snow;
+      var fs = shaders.fragmentShaders.snow;
+  
+      var material = new THREE.ShaderMaterial({
+
+        attributes: attributes,
+        uniforms:   G_UNIFORMS,
+        vertexShader: vs,
+        fragmentShader: fs,
+        //side: THREE.DoubleSide,
+        transparent: true,
+       // depthWrite: false
+
+      });
+
+      var geometry = new SnowflakeGeometry();
+
+      var mesh = new THREE.Mesh( geometry, material );      var g = new THREE.Mesh( new SnowflakeGeometry() );
+
+      mesh.rotation.y = Math.PI;
+
+    scene.add(mesh );
+
    // looper.addHit( function(){ disturbRepelers( Math.random() * 20 ); } , {
    //   measureFrequency: 2
    // });
@@ -478,7 +509,7 @@
     audioController.update();
     stats.update();
 
-    if( DEMO_DONE ){
+    if( DEMO_DONE || TWEEN_UPDATING === false ){
       controls.update();
     }
 
@@ -684,7 +715,6 @@
     var t = new TWEEN.Tween( i ).to( f , time );
 
     t.onUpdate( function(){
-
       pos.x = i.x;
       pos.y = i.y;
       pos.z = i.z;
@@ -708,8 +738,13 @@
 
     var t = new TWEEN.Tween( i ).to( f , time );
 
-    t.onUpdate( function(){
+    console.log( t );
+    t.obj = obj;
+    t.propt = propt;
+    t.onUpdate( function(t){
+
       obj[propt] = i.x;
+
     });
 
     t.start();

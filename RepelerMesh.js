@@ -7,12 +7,18 @@ function RepelerMesh( title , mesh , repelers , extraParams ){
   var mesh = mesh || new THREE.Mesh( new THREE.BoxGeometry( 1000 , 1000 , 1000 , 80 , 80 , 80 ) );
   var geometry = new THREE.Geometry();
 
-  geometry.merge( mesh.geometry , mesh.matrix );
+
+  if(!mesh.geometry.attributes ){
+      
+      geometry.merge( mesh.geometry , mesh.matrix );
   
+  }else{
+      geometry = mesh.geometry
+  }
  // var geometry =  || new THREE.BoxGeometry( 1000 , 1000 , 1000 , 80 , 80 , 80 );
   
 
-  var st = repelers.length + "";
+  var st = repelers.length;
 
   var s = shaders.setValue( shaders.simulationShaders.fire , 'SIZE' , st );
  
