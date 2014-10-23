@@ -466,13 +466,6 @@
 
       ShapeGems[propt].update();
 
-      if( ShapeGems[propt].movementSpeed && ShapeGems[propt].active == true ){
-
-         ShapeGems[propt].body.position.z +=  ShapeGems[propt].movementSpeed;
-
-
-      }
-
     }
 
     for( var propt in FinalScene ){
@@ -571,7 +564,7 @@
   function rH(){ return Math.random() - .5 }
 
 
-  function tweenCamera( position , time ){
+  function tweenCamera( position , time , callback ){
 
     var i = {
       x: camera.position.x,
@@ -595,6 +588,13 @@
       camera.position.z = i.z;
 
     });
+     t.onComplete( function(){
+
+      if( callback ) callback();
+
+    });
+
+
 
     t.start();
 

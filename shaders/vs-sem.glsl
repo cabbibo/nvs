@@ -5,6 +5,7 @@ uniform sampler2D t_pos;
 uniform sampler2D t_oPos;
 uniform sampler2D t_audio;
 uniform sampler2D t_og;
+uniform float time;
 
 uniform float audioDisplacement;
 
@@ -52,7 +53,7 @@ void main(){
   vec3 dif =  pos.xyz - ogPos.xyz;
   float displace = length( dif );
 
-  float noise = snoise( pos.xyz * .01 );
+  float noise = snoise( pos.xyz * .01 + vec3( time * .04 , time * .057 , time * .034 ));
 
  // vLife = length( pos.xyz - ogPos.xyz );
     

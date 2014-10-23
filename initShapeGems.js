@@ -24,10 +24,9 @@ function initShapeGems(){
 
     body:{
       t_audio:G_UNIFORMS.t_audio,
-      custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
-      custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
-      custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
-    t_sem: G_UNIFORMS.matcap   
+      audioDisplacement:{type:"f" , value:0 , constraints:[ 0 , 5 ]},
+    t_sem: G_UNIFORMS.matcap, 
+      time: G_UNIFORMS.time  
     }
 
   });
@@ -62,10 +61,8 @@ function initShapeGems(){
 
     body:{
       t_audio:G_UNIFORMS.t_audio,
-      custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
-      custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
-      custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
-      t_sem: G_UNIFORMS.matcap   
+      time: G_UNIFORMS.time,    
+     t_sem: G_UNIFORMS.matcap   
     }
 
   });
@@ -94,10 +91,8 @@ function initShapeGems(){
 
     body:{
       t_audio:G_UNIFORMS.t_audio,
-      custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
-      custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
-      custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
-      t_sem: G_UNIFORMS.matcap   
+      time: G_UNIFORMS.time, 
+    t_sem: G_UNIFORMS.matcap   
     }
 
   });
@@ -125,10 +120,8 @@ function initShapeGems(){
 
     body:{
       t_audio:G_UNIFORMS.t_audio,
-      custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
-      custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
-      custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
-    t_sem: G_UNIFORMS.matcap   
+      time: G_UNIFORMS.time, 
+      t_sem: G_UNIFORMS.matcap   
     }
 
   });
@@ -159,9 +152,8 @@ function initShapeGems(){
     body:{
       t_audio:G_UNIFORMS.t_audio,
       custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
-      audioDisplacement:{type:"f" , value:1 },
-      custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
-      custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
+      audioDisplacement:{type:"f" , value:0 },
+      time: G_UNIFORMS.time, 
       sprite:{ type:"t" , value: THREE.ImageUtils.loadTexture( 'img/flare.png' ) },
        t_sem:G_UNIFORMS.matcap   
     },

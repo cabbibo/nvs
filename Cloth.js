@@ -69,7 +69,8 @@ function Cloth( title , mesh , extraParams ){
       t_audio:            G_UNIFORMS.t_audio,
       lightPos:           G_UNIFORMS.moonLight,
       audioDisplacement: { type:"f" , value: 0   , constraints:[ 0 , .1 ] },
-      texScale: { type:"f" , value: 15  , constraints:[ 0 , 1000 ] },
+      texScale: { type:"f" , value: 8  , constraints:[ 0 , 15 ] },
+      depthScale: { type:"f" , value: .1  , constraints:[ 0 , 1 ] },
 
       fadeOut:{type:"f" , value: 3 },
       normalScale: { type:"f" , value: 1.6   , constraints:[ 0 , 10. ] },

@@ -69,8 +69,7 @@ void main(){
 
 
  
-  vec3 mapN = texture2D( t_normal,vUv*texScale+offset).xyz * 2.0 - 1.0;
-  mapN = texture2D( t_normal,vUv*texScale*.7314+offset).xyz * 2.0 - 1.0;
+  vec3 mapN = normalize( (texture2D( t_normal,vUv*texScale).xyz * 2.0 - 1.0));
 
 
   mapN.xy = normalScale * (mapN.xy);// + newNorm);
@@ -114,7 +113,9 @@ void main(){
   float lu = abs(dot( vCamVec , vMNorm ));
   float luf = abs(dot( vCamVec , fNorm ));
   vec4 aC = texture2D( t_audio , vec2( luf , 0. ));
+  vec4 aL = texture2D( t_audio , vec2( 1.-flag.r, 0. ));
 
+  aL *= aL * aL;
   vec2 fSEM = semLookup( -vCamVec , fNorm );
  // vec4 c = mix( r , b , (1. -  m  ));
   //gl_FragColor = vec4( abs( vMNorm ) , 1. );//c + aC;// c * aC * custom3;
@@ -131,8 +132,11 @@ void main(){
   */
 
    vec4 sem = texture2D( t_sem , fSEM );
-  gl_FragColor = aC* vec4( fNorm * .5 + .5 , 1. ) + ( vec4( 1.-aC) )* sem * vec4( fNorm * .5 + .5 , 1. ) +  vec4( vec3( 1.-flag.r), 1. );
-   /* (1. - fadeOut*length(vDist)) 
+
+  vec4 c = aC* vec4( fNorm * .5 + .5 , 1. ) + ( vec4( 1.-aC) )* sem * vec4( fNorm * .5 + .5 , 1. );
+  gl_FragColor = c * flag.r + (1. - flag.r )*aL; //* vec4( fNorm , 1. );//* vec4( fNorm * .5 + .5 , 1. ));   
+  
+  /* (1. - fadeOut*length(vDist)) 
     * (pow( vFR, 30. ) * 1. * aC 
     + vec4( 0.5 * abs(normalize(fNorm)) + 0.7 , 1. ) 
     * sem 

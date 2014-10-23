@@ -5,6 +5,8 @@ uniform sampler2D t_pos;
 uniform sampler2D t_oPos;
 uniform sampler2D t_audio;
 uniform sampler2D t_og;
+uniform sampler2D t_flag;
+uniform sampler2D t_normal;
 
 uniform float audioDisplacement;
 
@@ -31,11 +33,16 @@ varying float vFR;
 varying mat3 vNormMat;
 
 varying vec3 vReflection;
+uniform float texScale ;
+uniform float normalScale;
+uniform float depthScale;
 
 
 const float size  = @SIZE;
 const float iSize = @ISIZE;
 const float hSize = @HSIZE;
+
+const float smoothing = 1. / 32.;
 
 vec3 getNormal( vec3 p , vec2 uv ){
 
@@ -76,19 +83,33 @@ void main(){
   vUv = position.xy;
   //vec4 pos = texture2D( t_pos , vec2( vUv.x , (1. - (vUv.y + .125)) ) );
   vec4 pos = texture2D( t_pos , vUv );
-  vec4 v1 = texture2D( t_pos , tri1.xy );
-  vec4 v2 = texture2D( t_pos , tri2.xy );
-  vec4 oPos = texture2D( t_oPos , vUv );
+//  vec4 v1 = texture2D( t_pos , tri1.xy );
+//  vec4 v2 = texture2D( t_pos , tri2.xy );
+  //vec4 oPos = texture2D( t_oPos , vUv );
   vec4 ogPos = texture2D( t_og , vUv );
 
   vec3 norm = getNormal( pos.xyz , vUv );
 
-  vVel = pos.xyz - oPos.xyz;
+  vec3 nMap = abs( texture2D( t_normal , vUv * texScale).xyz * 2.0 - 1.0 );
+  float d = nMap.z/ ( nMap.x + nMap.y + 1. );
 
-  vec3 a1 = pos.xyz - v1.xyz;
-  vec3 a2 = pos.xyz - v2.xyz;
+
+  float f = texture2D( t_flag , vUv ).r;
+  float distance = (1. - f);
+  float lum = smoothstep( 0.1 - smoothing , 0.1 + smoothing , distance );
+ 
+///  d -= distance * .8; //lum * .3;
+
+  float depth = d * f +  .3* ( 1. - f );//; *  max( 0. , d );
+  pos +=  vec4( norm * depth * depthScale, 0. );
+
+//  vVel = pos.xyz - oPos.xyz;
+
+ // vec3 a1 = pos.xyz - v1.xyz;
+ // vec3 a2 = pos.xyz - v2.xyz;
 
   vNorm = norm;//normalize( cross( a1 , a2 ) );
+
 
 
   vLife = length( pos.xyz - ogPos.xyz );
