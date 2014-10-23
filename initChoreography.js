@@ -202,8 +202,7 @@ function initChoreography(){
 
       ShapeGems.sphere.toggle();
       ShapeGems.cube.toggle();
-      tweenValue(ShapeGems.cube.body.material.uniforms.audioDisplacement, 'value', 5 , looper.loopLength * 3000);
-     // ShapeGems.sphere.movementSpeed = 1.4;
+           // ShapeGems.sphere.movementSpeed = 1.4;
 
 
     });

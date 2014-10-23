@@ -1,7 +1,7 @@
 function initSnowflakes(){
 
   var snowflakes = [];
-  
+ 
   for( var i = 0; i < 1; i++ ){
 
     var attributes = {
@@ -32,7 +32,25 @@ function initSnowflakes(){
     });
 
     var geometry = new SnowflakeGeometry();
+    console.log('asd');
+    console.log( geometry );
 
+
+    var checkLength = function( geo ){
+
+      console.log( geo.attributes.position.array.length )
+      if( geo.attributes.position.array.length/3 < 50000 ){
+
+        console.log('WRONG');
+          geo = checkLength( new SnowflakeGeometry() );
+
+      }
+
+      return geo;
+
+    }
+
+    geometry = checkLength( geometry );
     var mesh = new THREE.Mesh( geometry, material );
 
     mesh.filled = uniforms.filled;

@@ -69,8 +69,11 @@ function initShapeGems(){
 
 
 
-  var g = new THREE.Mesh( new THREE.PlaneGeometry( 400 , 400 , 300 , 300 ) );
+  var g = new THREE.Mesh( new THREE.CubeGeometry( 200 , 200 , 200 , 80 , 80, 80 ) );
   g.position.z = 100;
+  g.rotation.x = Math.PI / 4;
+  g.rotation.y = Math.PI / 4;
+  g.rotation.z = Math.PI / 4;
   g.updateMatrix();
   sg.cube = new RepelerMesh( 'Plane' , g , REPELERS , {
       
