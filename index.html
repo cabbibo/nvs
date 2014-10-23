@@ -324,7 +324,6 @@
   }
 
 
-  var snowflakes = [];
 
 
   
@@ -600,7 +599,7 @@
 
   }
 
-  function tweenPosition( pos ,  position , time ){
+  function tweenPosition( pos ,  position , time , callback ){
 
     var i = {
       x: pos.x,
@@ -623,6 +622,14 @@
       pos.z = i.z;
 
     });
+
+    t.onComplete( function(){
+
+      if( callback ) callback();
+
+    });
+
+
 
     t.start();
 

@@ -233,7 +233,9 @@ function initChoreography(){
         y: 0.01,
         z: 0.01 
 
-      }, looper.loopLength * 500);
+      }, looper.loopLength * 500, function(){
+        ShapeGems.cube.toggle();
+      });
     ShapeGems.logo.toggle();
 
 
