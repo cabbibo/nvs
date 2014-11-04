@@ -519,11 +519,11 @@
 
 
       init();
-      loader.liftCurtain();
 
 
       window.setTimeout( function(){
 
+        loader.liftCurtain();
            
         G_UNIFORMS.dT.value = clock.getDelta();
         G_UNIFORMS.time.value += G_UNIFORMS.dT.value;
