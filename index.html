@@ -235,7 +235,7 @@
   var controller = new Leap.Controller();
 
   var loader = new Loader();
-  loader.liftCurtain();
+  //loader.liftCurtain();
 
   var clock = new THREE.Clock();
 
@@ -517,7 +517,10 @@
     console.log(loaded );
     if( loaded === neededToLoad ){
 
+
       init();
+      loader.liftCurtain();
+
 
       window.setTimeout( function(){
 

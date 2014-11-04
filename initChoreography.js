@@ -147,7 +147,7 @@ function initChoreography(){
         z: 300.57315433686765
       }, looper.loopLength* 1000 );
 
-        tweenValue(ShapeGems.points1.scaledBody.material.uniforms.audioDisplacement, 'value', 50 , looper.loopLength * 1000);
+        tweenValue(ShapeGems.points1.scaledBody.material.uniforms.audioDisplacement, 'value', 20 , looper.loopLength * 1000);
 
     });
 
@@ -261,6 +261,7 @@ function initChoreography(){
 
       Snowflakes[0].rotation.y = Math.PI;
       Snowflakes[0].addToScene(6);
+      Snowflakes[0].scale.multiplyScalar( 3 );
 
        tweenPosition( ShapeGems.logo.body.scale , {
 
@@ -272,9 +273,9 @@ function initChoreography(){
 
       tweenPosition( ShapeGems.torus1.body.scale , {
 
-        x: 100.01,
-        y: 100.01,
-        z: 100.01 
+        x: 10.01,
+        y: 10.01,
+        z: 10.01 
 
       }, looper.loopLength * 1000);
 
@@ -295,7 +296,15 @@ function initChoreography(){
 
       ShapeGems.logo.toggle();
       ShapeGems.sphere.movementSpeed = 1.4;
-      
+     
+       tweenPosition( ShapeGems.torus1.body.scale , {
+
+        x: 100.01,
+        y: 100.01,
+        z: 100.01 
+
+      }, looper.loopLength * 1000);
+
       R_VALUES.centerForce = 5.
       R_VALUES.windForce = -3.
       R_VALUES.dampening = .8;
@@ -316,7 +325,14 @@ function initChoreography(){
 
 
       ShapeGems.sphere.movementSpeed = 1.4;
+   
+      tweenPosition( ShapeGems.torus1.body.scale , {
 
+        x: 1000.01,
+        y: 1000.01,
+        z: 1000.01 
+
+      }, looper.loopLength * 1000);
       
        R_VALUES.centerForce = 5.
       R_VALUES.windForce = 0;
