@@ -12,7 +12,7 @@ function initFinalScene(){
   //fs.cloth.toggle();
  // var g = new THREE.Mesh( new THREE.TorusGeometry( 300 , 60 , 50 , 50 , 2 * Math.PI));
 
-  var s = new Text( 'nv.scene.com' , 2 );
+  var s = new Text( 'nv.scene.org' , 2 );
 
   s.scale.multiplyScalar( 50 );
 

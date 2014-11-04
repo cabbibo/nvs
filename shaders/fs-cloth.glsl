@@ -134,7 +134,7 @@ void main(){
    vec4 sem = texture2D( t_sem , fSEM );
 
   vec4 c = aC* vec4( fNorm * .5 + .5 , 1. ) + ( vec4( 1.-aC) )* sem * vec4( fNorm * .5 + .5 , 1. );
-  gl_FragColor = c * flag.r + (1. - flag.r )*aL; //* vec4( fNorm , 1. );//* vec4( fNorm * .5 + .5 , 1. ));   
+  gl_FragColor = (1. - fadeOut*length(vDist)) * c * flag.r + (1. - flag.r )*aL; //* vec4( fNorm , 1. );//* vec4( fNorm * .5 + .5 , 1. ));   
   
   /* (1. - fadeOut*length(vDist)) 
     * (pow( vFR, 30. ) * 1. * aC 

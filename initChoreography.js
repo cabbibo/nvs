@@ -68,7 +68,6 @@ function initChoreography(){
 
       }, looper.loopLength * 10000);
 
-      tweenValue(ShapeGems.sphere.body.material.uniforms.audioDisplacement, 'value', 20 , looper.loopLength * 5000);
 
       ShapeGems.torus1.toggle();
      // ShapeGems.torus1.body.position.z = -500;
@@ -116,8 +115,8 @@ function initChoreography(){
       ShapeGems.points1.body.visible = false;
   
       ShapeGems.points1.scaledBody = SH1;
-       tweenValue(ShapeGems.points1.scaledBody.material.uniforms.audioDisplacement, 'value', 50 , looper.loopLength * 20000);
-     /* ShapeGems.points1.scaledBody.position.x = 100;
+       
+          /* ShapeGems.points1.scaledBody.position.x = 100;
       ShapeGems.points1.scaledBody.position.y = 100;
       ShapeGems.points1.scaledBody.position.z = 100;*/
 
@@ -132,6 +131,8 @@ function initChoreography(){
         z: 300.57315433686765
       }, looper.loopLength* 1000 );
 
+      tweenValue(ShapeGems.sphere.body.material.uniforms.audioDisplacement, 'value', 20 , looper.loopLength * 5000);
+      
     });
 
 
@@ -145,6 +146,8 @@ function initChoreography(){
         y: 246.99165457145572,
         z: 300.57315433686765
       }, looper.loopLength* 1000 );
+
+        tweenValue(ShapeGems.points1.scaledBody.material.uniforms.audioDisplacement, 'value', 50 , looper.loopLength * 1000);
 
     });
 
@@ -267,6 +270,14 @@ function initChoreography(){
 
       }, looper.loopLength * 100);
 
+      tweenPosition( ShapeGems.torus1.body.scale , {
+
+        x: 100.01,
+        y: 100.01,
+        z: 100.01 
+
+      }, looper.loopLength * 1000);
+
       R_VALUES.centerForce = 5.
       R_VALUES.windForce = -3.
 
@@ -329,6 +340,8 @@ function initChoreography(){
 
     looper.onLoop( 14 , function(){
 
+      ShapeGems.torus1.toggle();
+
       R_VALUES.centerForce = 1.
       R_VALUES.windForce = 0;
       R_VALUES.springLength = 10000;
@@ -342,7 +355,7 @@ function initChoreography(){
       }, looper.loopLength* 900 , function(){
      
         
-        ShapeGems.torus1.toggle();
+       // ShapeGems.torus1.toggle();
         
         FinalScene.cloth.body.scale.multiplyScalar( 0.0001 );
 
