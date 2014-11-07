@@ -279,7 +279,7 @@ SnowflakeGeometry.prototype.makeNormal = function( p1 , p2 , p3 ){
   n.crossVectors( this.v1 , this.v2 );
   n.normalize();
 
-  return n;
+  return n.multiplScalar( -1 );
 
 }
 
