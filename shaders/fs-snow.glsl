@@ -16,7 +16,7 @@ void main(){
 
   vec4 sem = texture2D( matcap , vSEM );
 
-  vec4 nCol =  vec4( vNorm * .5 + .7 , 1. );
+  vec4 nCol =  vec4( abs( vNorm * .5 ) + .7 , 1. );
 
   vec4 color = nCol;// * sem + nCol * pow(( 1.-abs(vFR)) , 10. );
 
