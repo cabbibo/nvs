@@ -27,7 +27,7 @@ function initSnowflakes(){
       fragmentShader: fs,
       side: THREE.DoubleSide,
       transparent: true,
-     // depthWrite: false
+      depthWrite: false
 
     });
 
