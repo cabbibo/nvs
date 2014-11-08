@@ -149,7 +149,7 @@ function initShapeGems(){
 
     body:{
       t_audio:G_UNIFORMS.t_audio,
-      audioDisplacement:{type:"f" , value:0 },
+      audioDisplacement:{type:"f" , value:0 , constraints:[0 , 40]},
       time: G_UNIFORMS.time, 
       sprite:{ type:"t" , value: THREE.ImageUtils.loadTexture( 'img/flare.png' ) },
       t_sem:G_UNIFORMS.matcap   
