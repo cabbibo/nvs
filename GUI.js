@@ -16,7 +16,7 @@ function GUI( PARAMS ,  params ){
   // TODO: make passable
   this.domElement = this.params.domElement;
   this.domElement.appendChild(this.gui.domElement);
-
+  this.domElement.style.display = "none";
 
   this.soul = this.gui.addFolder( 'Soul' );
   this.body = this.gui.addFolder( 'Body' );
@@ -25,7 +25,7 @@ function GUI( PARAMS ,  params ){
      
     var p = PARAMS.soul[propt];
 
-    if( p.type === "f" ){
+    if( p.type === "f" && propt !== 'time' && propt !== 'sample' ){
 
       if(p.constraints ){
         this.addFloat( 'soul' , p , propt , p.constraints );
@@ -43,7 +43,7 @@ function GUI( PARAMS ,  params ){
      
     var p = PARAMS.body[propt];
 
-    if( p.type === "f" ){
+    if( p.type === "f" && propt !== 'time' && propt !== 'sample' ){
 
       if(p.constraints ){
         this.addFloat( 'body' , p , propt , p.constraints );

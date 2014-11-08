@@ -136,10 +136,18 @@ GEM.prototype.removeFromScene = function(){
 
 GEM.prototype.toggle = function(){
 
+ 
   if( !this.active ){
     this.addToScene();
+    if( this.gui ){
+      this.gui.domElement.style.display = "block";
+    }
+
   }else{
     this.removeFromScene();
+    if( this.gui ){
+      this.gui.domElement.style.display = "none";
+    }
   }
 
 }

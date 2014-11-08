@@ -58,11 +58,6 @@ function RepelerMesh( title , mesh , repelers , extraParams ){
     body:{
       
       audioDisplacement:{ type:"f" , value : 0.0 ,  constraints:[ 0 , 20 ]},
-      
-      custom1:{type:"f" , value: .04,  constraints:[ 0.00001 , 1]},
-      custom2:{type:"f" , value: .31,  constraints:[ 0.00001 , 1]},
-      custom3:{type:"f" , value: 1, constraints:[ 0.00001 , 1]},
-      
       lightPos:{type:"v3" , value: new THREE.Vector3( 10 , 1 , 1 )},
       
       t_audio:   G_UNIFORMS.t_audio,
@@ -124,14 +119,14 @@ function RepelerMesh( title , mesh , repelers , extraParams ){
 
   guis.appendChild( gHolder );
 
-  $(tHolder).click(function(){
+ /* $(tHolder).click(function(){
     this.toggle();
     if( this.active ){
       this.tHolder.className = "active";
     }else{
       this.tHolder.className = "";
     }
-  }.bind( gem ));
+  }.bind( gem ));*/
 
 
   $(tHolder).hover(function(){

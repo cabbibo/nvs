@@ -7,7 +7,7 @@ function initShapeGems(){
 
   var g = new THREE.Mesh( new THREE.IcosahedronGeometry( 100 , 6 ) );
 
-  sg.sphere = new RepelerMesh( 'PShere' , g , REPELERS , {
+  sg.sphere = new RepelerMesh( 'Shere' , g , REPELERS , {
       
     vs: shaders.vertexShaders.sem,
     fs: shaders.fragmentShaders.sem,
@@ -75,7 +75,7 @@ function initShapeGems(){
   g.rotation.y = Math.PI / 4;
   g.rotation.z = Math.PI / 4;
   g.updateMatrix();
-  sg.cube = new RepelerMesh( 'Plane' , g , REPELERS , {
+  sg.cube = new RepelerMesh( 'Box' , g , REPELERS , {
       
   //  vs: shaders.vertexShaders.cube,
     vs: shaders.vertexShaders.sem,

@@ -7,22 +7,24 @@
   <meta name="twitter:card" content="photo">
   <meta name="twitter:site" content="@cabbibo">
   <meta name="twitter:creator" content="@cabbibo">
-  <meta name="twitter:url" content="http://cabbi.bo">
+  <meta name="twitter:url" content="http://cabbi.bo/nvs">
   <meta name="twitter:title" content="Long Live Synesthesia">
   <meta name="twitter:description" content="Long Live Synesthesia">
   <meta name="twitter:creator" content="@cabbibo">
-  <meta name="twitter:image" content="http://cabbi.bo/image.png">
+  <meta name="twitter:image" content="img/ss.png">
   <meta name="twitter:image:width" content="1440">
   <meta name="twitter:image:height" content="900">
   <meta name="twitter:domain" content="cabbi.bo">
   <meta itemprop="name" content="Cabbi.bo">
   <meta itemprop="description" content="Long Live Synesthesia">
-  <meta itemprop="image" src="http://cabbi.bo/image.png">
-  <meta property="og:title" content="Cabbi.bo">
+  <meta itemprop="image" src="img/ss.png">
+  <meta property="og:title" content="Cabbi.bo/nvs">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="http://cabbi.bo/image.png"/>
+  <meta property="og:image" content="img/ss.png"/>
   <meta property="og:site_name" content="Cabbi.bo">
   <meta property="og:description" content="Long Live Synesthesia">
+  
+  <link rel="stylesheet" type="text/css" href="main.css">
 
   <style>
 
@@ -116,9 +118,70 @@
       right:0px;
       top:0px;
       z-index:999;
-      display:none;
+     // display:none;
 
-    }
+   }
+
+
+   #choices{
+
+      position:absolute;
+     // top:50%;
+      z-index:999;
+      display: block;
+       position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+     // display:none;
+
+   }
+
+    #choices a{
+
+      position: relative;
+      float: left;
+      color: #fff;
+      background: rgba( 255 ,255 ,255 , .2 );
+      padding: 20px;
+      font-size: 34px;
+      margin: 20px;
+      border: 1px solid white;
+     // display:none;
+
+      top: 0%;
+      left: 50%;
+      transform: translate(-100%, 0%);
+   }
+
+   #choices a:hover{
+
+     text-decoration: none;
+
+   }
+
+   #logoIMG{
+      position: relative;
+      //float: left;
+      color: #fff;
+
+      display: block;
+
+      width:100px;
+      height: 100px;
+      margin-left: auto;
+      margin-right: auto;// or margin: 0 auto
+     // background: rgba( 255 ,255 ,255 , .2 );
+    // padding: 100px;
+    // padding-left:200px;
+     // font-size: 34px;
+     // margin: 20px;
+     // border: 1px solid white;
+     // display:none;
+
+   }
+
+
     
     </style>
 </head>
@@ -188,9 +251,12 @@
 <script src = "updateCubeMap.js"            ></script>
 <script src = "updateFingers.js"            ></script>
 
+<script src = "addSocialMedia.js"            ></script>
 
 
 <script>
+
+  addSocialMedia( SOCIAL_MEDIA );
 
   var container , camera, scene, renderer , stats;
 
@@ -206,6 +272,8 @@
   var loadedMeshes = {};
   
   var REPELERS = [];
+
+
 
   var R = REPELERS;
 
@@ -241,8 +309,9 @@
   var clock = new THREE.Clock();
 
   var audioController = new AudioController();
-  //audioController.mute.gain.value = 0;
+  audioController.mute.gain.value = 0;
 
+  var TWEEN_CAMERA = true;
   var TWEEN_UPDATING = true;
  // var TWEEN_UPDATING = false;
 
@@ -284,6 +353,19 @@
 
   normalTexture.wrapS = THREE.RepeatWrapping;
   normalTexture.wrapT = THREE.RepeatWrapping;
+
+
+ /* var logoIMG = document.createElement('img');
+  logoIMG.id = "logoIMG"
+  logoIMG.src = "img/cabbibo.png"
+  logoIMG.onload = function(){
+
+    console.log('imga');
+    onLoad();
+
+  }*/
+
+
  /* var userAudio = new UserAudio( audioController );
   userAudio.onStreamCreated = function(){
 
@@ -515,6 +597,7 @@
 
     loaded ++;
 
+    loader.loadBarAdd();
     console.log(loaded );
     if( loaded === neededToLoad ){
 
@@ -525,22 +608,101 @@
       window.setTimeout( function(){
 
         loader.liftCurtain();
-           
-        G_UNIFORMS.dT.value = clock.getDelta();
-        G_UNIFORMS.time.value += G_UNIFORMS.dT.value;
-
-
-        if( stream ){ 
-          stream.play(); 
-          looper.start();
-        }
-        animate();
+        showChoices();
+  
 
       },2000 );
     
     }
 
   }
+
+  function showChoices(){
+
+    choices = document.createElement( 'div' );
+    choices.id = "choices";
+
+    document.body.appendChild( choices );
+
+    playDemo = document.createElement('a');
+    watchDemo = document.createElement('a');
+
+    playDemo.onclick = function(){
+      startPlayground();
+    }
+    
+    watchDemo.onclick = function(){    
+      startDemo();
+    }
+        
+    watchDemo.innerHTML = "Watch The Demo";
+    playDemo.innerHTML = "Play With Demo";
+
+    //choices.appendChild( logoIMG );
+    choices.appendChild( watchDemo );
+    choices.appendChild( playDemo );
+
+  }
+
+  function startDemo(){
+
+    
+    var elem = renderer.domElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    }
+    var element = document.getElementById("choices");
+    element.parentNode.removeChild(element);
+
+    G_UNIFORMS.dT.value = clock.getDelta();
+    G_UNIFORMS.time.value += G_UNIFORMS.dT.value;
+
+    DEMO_DONE = false;
+    TWEEN_CAMERA = true;
+
+    var element = document.getElementById("GUI");
+    element.style.display = "none"
+
+
+
+    if( stream ){ 
+      stream.play(); 
+      looper.start();
+    }
+
+
+    animate();
+
+  }
+
+  function startPlayground(){
+
+    var element = document.getElementById("choices");
+    element.parentNode.removeChild(element);
+
+    G_UNIFORMS.dT.value = clock.getDelta();
+    G_UNIFORMS.time.value += G_UNIFORMS.dT.value;
+
+    DEMO_DONE = true;
+    TWEEN_CAMERA = false;
+
+
+    if( stream ){ 
+      stream.play(); 
+      looper.start();
+    }
+
+    animate();
+
+
+  }
+
 
   function toCart( r , t , p ){
 
@@ -586,9 +748,11 @@
 
     t.onUpdate( function(){
 
-      camera.position.x = i.x;
-      camera.position.y = i.y;
-      camera.position.z = i.z;
+      if( TWEEN_CAMERA  === true ){
+        camera.position.x = i.x;
+        camera.position.y = i.y;
+        camera.position.z = i.z;
+      }
 
     });
      t.onComplete( function(){

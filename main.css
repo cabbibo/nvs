@@ -2,6 +2,7 @@ html{
   color:#000;
   background:#000;
   font-family:"GeoSans";
+  margin:0px;
   background-repeat:no-repeat;
  // cursor: url(cursorWhite.png), auto;
  // cursor: vertical-text;
@@ -15,9 +16,67 @@ body{
   overflow: hidden;
 }
 
+
+#container{
+
+ width      : 100%;
+ height     : 100%;
+ position   : absolute;
+ top        : 0px;
+ left       : 0px;
+ //background : #000;
+
+}
+
+#curious{
+  text-align: center;
+  color: #fff;
+  font-size: 20px;
+  padding: 100px;
+  display: none;
+
+}
+
+
+#hookInfo{
+
+  position:absolute;
+ display:block;
+// width:100px;
+ //height:100px;
+ z-index:999;
+ opacity:.8;
+ font-size:30px;
+
+}
+
+#hookCount{
+
+  display:none;
+
+}
+
+.hookRow{
+
+  height :30px;
+ // width: 10000px;
+  display :block;
+
+}
+
+.hookCounter{
+
+  width: 18px;
+  height: 18px;
+  margin:5px;
+  border: 1px solid black;
+  position:relative;
+  display: inline-block;
+}
+
 @font-face {
   font-family: "GeoSans";
-  src: url("../assests/GeosansLight.ttf");
+  src: url("GeosansLight.ttf");
 }
 a{
 
@@ -147,7 +206,7 @@ display:none;
   left        : 0px;
   width       : 100%;
   height      : 100%;
-  background  : #000;
+  //background  : #000;
 
 }
 
@@ -204,9 +263,11 @@ display:none;
   height:25px;
   display: block;
 
+  position:relative;
   opacity:.3;
   padding:5px;
   float:right;
+
 }
 .social:hover{
 
@@ -236,6 +297,7 @@ display:none;
   right: 5px;
   font-size: 23px;
   bottom: 35px;
+  padding: 10px;
   opacity: .6;
   color: #fff;
 }
@@ -290,3 +352,13 @@ display:none;
 #startButton:hover{
 //background:#f00;
 }
+
+    #GUI{
+
+      position:fixed;
+      right:0px;
+      top:0px;
+      z-index:999;
+
+    }
+    
