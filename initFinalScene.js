@@ -23,7 +23,6 @@ function initFinalScene(){
     fs: shaders.fragmentShaders.sem,
     soul:{
 
-      noiseSize:{type:"f" , value:.001 , constraints:[ .00001 , .04 ]},
       repulsionPower:     { type:"f" , value: 2500. , constraints:[0  , 2000] },
       repulsionRadius:     { type:"f" , value: 300. , constraints:[00  , 10000] },
       dampening:     { type:"f" , value: 0.9 , constraints:[00  , 1] },
@@ -33,10 +32,7 @@ function initFinalScene(){
 
     body:{
       t_audio:G_UNIFORMS.t_audio,
-      custom1:{type:"f" , value:.8 , constraints:[ .8 , 1 ]},
-      custom2:{type:"f" , value:.5 , constraints:[ 0 , 1 ]},
-      custom3:{type:"f" , value:3 , constraints:[ 0 , 5 ]},
-       t_sem: G_UNIFORMS.matcap     
+      t_sem: G_UNIFORMS.matcap     
     }
 
   });

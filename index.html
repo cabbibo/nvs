@@ -145,7 +145,7 @@
       background: rgba( 255 ,255 ,255 , .2 );
       padding: 20px;
       font-size: 34px;
-      margin: 20px;
+     // margin: 20px;
       border: 1px solid white;
      // display:none;
 
@@ -635,8 +635,8 @@
       startDemo();
     }
         
-    watchDemo.innerHTML = "Watch The Demo";
-    playDemo.innerHTML = "Play With Demo";
+    watchDemo.innerHTML = "Watch The Invite";
+    playDemo.innerHTML = "Play With Invite";
 
     //choices.appendChild( logoIMG );
     choices.appendChild( watchDemo );
@@ -657,48 +657,58 @@
     } else if (elem.webkitRequestFullscreen) {
       elem.webkitRequestFullscreen();
     }
-    var element = document.getElementById("choices");
-    element.parentNode.removeChild(element);
+    
+    //var element = document.getElementById("choices");
+    //element.parentNode.removeChild(element);
+    $("#choices").fadeOut( 1000 );
 
-    G_UNIFORMS.dT.value = clock.getDelta();
-    G_UNIFORMS.time.value += G_UNIFORMS.dT.value;
+    setTimeout( function(){
+      G_UNIFORMS.dT.value = clock.getDelta();
+      G_UNIFORMS.time.value += G_UNIFORMS.dT.value;
 
-    DEMO_DONE = false;
-    TWEEN_CAMERA = true;
+      DEMO_DONE = false;
+      TWEEN_CAMERA = true;
 
-    var element = document.getElementById("GUI");
-    element.style.display = "none"
-
-
-
-    if( stream ){ 
-      stream.play(); 
-      looper.start();
-    }
+      var element = document.getElementById("GUI");
+      element.style.display = "none"
 
 
-    animate();
+
+      if( stream ){ 
+        stream.play(); 
+        looper.start();
+      }
+
+
+      animate();
+
+    }, 2000 );
+
 
   }
 
   function startPlayground(){
 
-    var element = document.getElementById("choices");
-    element.parentNode.removeChild(element);
+    $("#choices").fadeOut( 1000 );
+    //var element = document.getElementById("choices");
+    //element.parentNode.removeChild(element);
 
-    G_UNIFORMS.dT.value = clock.getDelta();
-    G_UNIFORMS.time.value += G_UNIFORMS.dT.value;
-
-    DEMO_DONE = true;
-    TWEEN_CAMERA = false;
+    setTimeout( function(){
+      DEMO_DONE = true;
+      TWEEN_CAMERA = false;
 
 
-    if( stream ){ 
-      stream.play(); 
-      looper.start();
-    }
+      G_UNIFORMS.dT.value = clock.getDelta();
+      G_UNIFORMS.time.value += G_UNIFORMS.dT.value;
 
-    animate();
+
+      if( stream ){ 
+        stream.play(); 
+        looper.start();
+      }
+
+      animate();
+    }, 1500 );
 
 
   }

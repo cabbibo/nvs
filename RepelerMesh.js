@@ -45,7 +45,7 @@ function RepelerMesh( title , mesh , repelers , extraParams ){
       repulsionPower:     { type:"f" , value: 1. , constraints:[-100  , 100] },
       repulsionRadius:     { type:"f" , value: 1. , constraints:[-100  , 100] },
       
-      maxVel:             { type:"f" , value: 30.   , constraints:[ 0 , 100 ] }, 
+      maxVel:             { type:"f" , value: 20.   , constraints:[ 0 , 20 ] }, 
       t_audio:            G_UNIFORMS.t_audio,
 
       repelers:         { type:"v3v" , value:[] },

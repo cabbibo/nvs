@@ -15,7 +15,6 @@ function initShapeGems(){
 
     soul:{
 
-      noiseSize:{type:"f" , value:.001 , constraints:[ .00001 , .04 ]},
       repulsionPower:     { type:"f" , value: 500. , constraints:[0  , 2000] },
       repulsionRadius:     { type:"f" , value: 1000. , constraints:[00  , 10000] },
 
@@ -24,8 +23,8 @@ function initShapeGems(){
 
     body:{
       t_audio:G_UNIFORMS.t_audio,
-      audioDisplacement:{type:"f" , value:0 , constraints:[ 0 , 5 ]},
-    t_sem: G_UNIFORMS.matcap, 
+      audioDisplacement:{type:"f" , value:0 , constraints:[ 0 , 20 ]},
+      t_sem: G_UNIFORMS.matcap, 
       time: G_UNIFORMS.time  
     }
 
@@ -52,7 +51,6 @@ function initShapeGems(){
 
     soul:{
 
-      noiseSize:{type:"f" , value:.001 , constraints:[ .00001 , .04 ]},
       repulsionPower:     { type:"f" , value:1500. , constraints:[0  , 2000] },
       repulsionRadius:     { type:"f" , value: 1500. , constraints:[00  , 10000] },
 
@@ -85,7 +83,6 @@ function initShapeGems(){
 
     soul:{
 
-      noiseSize:{type:"f" , value:.001 , constraints:[ .00001 , .04 ]},
       repulsionPower:     { type:"f" , value: 1000. , constraints:[0  , 2000] },
       repulsionRadius:     { type:"f" , value: 2000. , constraints:[00  , 10000] },
 
@@ -106,17 +103,16 @@ function initShapeGems(){
 
 
   var g = new THREE.Mesh( new THREE.TorusGeometry( 300 , 60 , 50 , 200 , 2 * Math.PI));
-  sg.torus1 = new RepelerMesh( 'Torus1' , g , REPELERS , {
+  sg.torus1 = new RepelerMesh( 'Torus' , g , REPELERS , {
       
     vs: shaders.vertexShaders.sem,
     fs: shaders.fragmentShaders.sem,
 
     soul:{
 
-      noiseSize:{type:"f" , value:.001 , constraints:[ .00001 , .04 ]},
-      repulsionPower:     { type:"f" , value: 10000. , constraints:[0  , 2000] },
+      repulsionPower:     { type:"f" , value: 10000. , constraints:[0  , 10000] },
       repulsionRadius:     { type:"f" , value: 5000. , constraints:[00  , 10000] },
-      dampening:     { type:"f" , value: 0.97 , constraints:[00  , 1] },
+      dampening:     { type:"f" , value: 0.97 , constraints:[.8  , 1] },
 
 
     },
@@ -144,7 +140,6 @@ function initShapeGems(){
     //type:'points',
     soul:{
 
-      noiseSize:{type:"f" , value:.001 , constraints:[ .00001 , .04 ]},
       dampening:     { type:"f" , value: .98 , constraints:[0  , 1] },
       repulsionPower:     { type:"f" , value: 500. , constraints:[0  , 2000] },
       repulsionRadius:     { type:"f" , value: 10000. , constraints:[00  , 10000] },
@@ -154,11 +149,10 @@ function initShapeGems(){
 
     body:{
       t_audio:G_UNIFORMS.t_audio,
-      custom1:{type:"f" , value:.9 , constraints:[ .8 , 1 ]},
       audioDisplacement:{type:"f" , value:0 },
       time: G_UNIFORMS.time, 
       sprite:{ type:"t" , value: THREE.ImageUtils.loadTexture( 'img/flare.png' ) },
-       t_sem:G_UNIFORMS.matcap   
+      t_sem:G_UNIFORMS.matcap   
     },
 
     //blending: THREE.AdditiveBlending,

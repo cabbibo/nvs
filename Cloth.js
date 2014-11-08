@@ -72,7 +72,7 @@ function Cloth( title , mesh , extraParams ){
       texScale: { type:"f" , value: 8  , constraints:[ 0 , 15 ] },
       depthScale: { type:"f" , value: .1  , constraints:[ 0 , 1 ] },
 
-      fadeOut:{type:"f" , value: 3 },
+      fadeOut:{type:"f" , value: 3 , constraints:[ -5 , 10 ]},
       normalScale: { type:"f" , value: 1.6   , constraints:[ 0 , 10. ] },
       t_flag: { type:"t" , value: flagTexture }, 
       t_normal: { type:"t" , value: normalTexture }, 
