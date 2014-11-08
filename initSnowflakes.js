@@ -25,9 +25,9 @@ function initSnowflakes(){
       uniforms:uniforms,
       vertexShader: vs,
       fragmentShader: fs,
-      side: THREE.DoubleSide,
+     // side: THREE.DoubleSide,
       transparent: true,
-      depthWrite: false
+    //  depthWrite: false
 
     });
 
