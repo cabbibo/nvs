@@ -1,10 +1,9 @@
   
 
       var SOCIAL_MEDIA = [
-        ["Download Song" , "download_1.png" , "audio/2D.mp3"],
         ["Share on Twitter" ,"twitter_1.png" , "http://twitter.com/share?text=NVSCENE%202015%20Invite%20made%20in%20%23threejs%20and%20%23WebGL%20by%20@cabbibo%20&url=http://cabbi.bo/nvs"],
         ["Share on Facebook", "facebook_1.png" , 'http://www.facebook.com/sharer.php?u=http://cabbi.bo/nvs'],
-        ["Soundcloud" ,"soundcloud_1.png" , "https://soundcloud.com/cabbibo/sets/nsb"],
+        ["Soundcloud" ,"soundcloud_1.png" , "https://soundcloud.com/cabbibo/2d?in=cabbibo/sets/nsb"],
         ["Cabbibo" , "cabbibo_1.png" , "http://cabbi.bo"],
       ]
       
